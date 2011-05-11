@@ -1313,3 +1313,22 @@ class generator_form extends moodleform {
 
     }
 }
+
+if (CLI_SCRIPT and isset($argv)) {
+    $generator = new generator_cli($argv, $argc);
+    $generator->generate_data();
+} elseif (isset($_SERVER['REQUEST_URI']) and strstr($_SERVER['REQUEST_URI'], 'generator.php')) {
+    require_login();
+    $systemcontext = get_context_instance(CONTEXT_SYSTEM);
+    require_capability('moodle/site:config', $systemcontext);
+
+    $PAGE->set_url('/admin/generator.php');
+    $PAGE->set_pagelayout('base');
+    $generator = new generator_web();
+    $generator->setup();
+    $generator->display();
+    $generator->generate_data();
+    $generator->complete();
+} else {
+    $generator = new generator_silent();
+}

@@ -129,6 +129,6 @@ if (is_file($path)) {
 // And run them
 $test->run($reporter);
 
-class CITestReported extends TextReporter {
+class CITextReporter extends TextReporter {
 
 }
