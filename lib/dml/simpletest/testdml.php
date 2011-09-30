@@ -2964,6 +2964,37 @@ class dml_test extends UnitTestCase {
         $this->assertEqual(1, $DB->count_records($tablename));
     }
 
+    public function test_delete_records_join_select() {
+        $DB = $this->tdb;
+
+        // Real case that ignited all this @ MDL-29520
+        $table = 'question_attempt_step_data';
+        $join  = '{question_attempt_step_data} qasd
+                  JOIN {question_attempt_steps} qas ON qas.id = {question_attempt_step_data}.attemptstepid
+                  JOIN {question_attempts} qa ON qa.id = qas.questionattemptid';
+        $select= 'qa.questionusageid = ?';
+        $params= array(-1); // So we won't be deleting anything really
+        $this->assertTrue($DB->delete_records_join_select($table, $join, $select, $params));
+
+        // Same case but with aliases use
+        $table = 'question_attempt_step_data';
+        $join  = '{question_attempt_step_data} qasd
+                  JOIN {question_attempt_steps} qas ON qas.id = qasd.attemptstepid
+                  JOIN {question_attempts} qa ON qa.id = qas.questionattemptid';
+        $select= 'qa.questionusageid = ?';
+        $params= array(-1); // So we won't be deleting anything really
+        $this->assertTrue($DB->delete_records_join_select($table, $join, $select, $params));
+
+        // Same case but without aliases use
+        $table = 'question_attempt_step_data';
+        $join  = '{question_attempt_step_data}
+                  JOIN {question_attempt_steps} qas ON qas.id = {question_attempt_step_data}.attemptstepid
+                  JOIN {question_attempts} qa ON qa.id = qas.questionattemptid';
+        $select= 'qa.questionusageid = ?';
+        $params= array(-1); // So we won't be deleting anything really
+        $this->assertTrue($DB->delete_records_join_select($table, $join, $select, $params));
+    }
+
     public function test_delete_records_list() {
         $DB = $this->tdb;
         $dbman = $DB->get_manager();

@@ -1638,6 +1638,45 @@ abstract class moodle_database {
      */
     public abstract function delete_records_select($table, $select, array $params=null);
 
+    /**
+     * Delete one or more records from a table which match a particular JOIN and WHERE clause
+     *
+     * This method optimises the deletion of records from DB when the conditions ($where)
+     * to select them aren't 100% autocontained in the table being deleted but spread along
+     * multiple tables ($join)
+     *
+     * By default it performs the deletion transforming the query into one EXISTS clause that
+     * has been demoed to be the fastest under all serious databases (see MDL-29520). But
+     * any database implementation can override this method to get its own quicker
+     * alternative (like mysql does right now by using its DELETE FROM JOIN proprietary implementation)
+     *
+     * Use trick: Just create the SELECT FROM JOIN query that returns the target records, extract its
+     * FROM JOIN (without the FROM, goes to $join) and its WHERE (without the WHERE, goes to $select)
+     * and call the function. Should work ok 99% of the times. The only thing you must consider is that
+     * the $table from which you are deleting records and the first table used in the $join must match 100%
+     *
+     * Any use of this method should be covered by some testcase within test_delete_records_join_select()
+     * to be able to easily check for cross-db support and avoid regressions. The tests will conform a good
+     * reference for developers.
+     *
+     * @param string $table The database table to be checked against.
+     * @param string $join A fragment of SQL to be used as join clause in the SQL. First table must match $table.
+     * @param string $select A fragment of SQL to be used in a where clause in the SQL (used to define the selection criteria).
+     * @param array $params array of sql parameters
+     * @return bool true.
+     * @throws dml_exception if error
+     *
+     * @todo some day analyze the need to have also one similar update_records_join_select() method
+     */
+    public function delete_records_join_select($table, $join, $select, array $params=null) {
+
+        // Perform some common validations:
+        //     - First element in join matches table
+        //     - Detect $table alias if present in the join, empty if not
+        //     - Detect wrong FROM/JOIN/WHERE keywords
+        // Throw coding exception if validations fail
+        $tablealias = $this->_validate_join_select_table($table, $join);
+    }
 
 
 /// sql constructs
