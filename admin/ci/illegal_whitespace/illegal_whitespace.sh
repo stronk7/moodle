@@ -3,7 +3,7 @@
 # $gitbranch: Branch we are going to examine
 
 # dirs and files (egrep-like regexp) we are going to exclude from analysis
-exclude="/.git|/auth/cas/CAS|/lib/adodb|/lib/editor/tinymce/tiny_mce|/lib/typo3|/lib/yui|/lib/pear|/lib/spikephpcoverage|/lib/zend|/lib/overlib|/lib/minify|/lib/simpletestlib|/lib/swfobject|/lib/tcpdf|/repository/s3/S3.php|/repository/url/locallib.php|/search|/backup/bb/bb5.5_to_moodle.xsl|/backup/bb/bb6_to_moodle.xsl|/backup/cc/schemas|/lang/|/lib/alfresco|/lib/base32.php|/lib/bennu|/lib/csshover.htc|/lib/cookies.js|/lib/dragmath|/lib/excel|/lib/flowplayer|/lib/htmlpurifier|/lib/jabber/XMPP|/lib/markdown.php|/lib/simplepie|/lib/smarty|/lib/xhprof/xhprof_html|/lib/xhprof/xhprof_lib|/question/format/qti_two/templates|/webservice/amf/testclient/AMFTester.mxml|/webservice/amf/testclient/customValidators/JSONValidator.as"
+exclude="/.git|/auth/cas/CAS|/lib/adodb|/lib/editor/tinymce/tiny_mce|/lib/typo3|/lib/yui|/lib/pear|/lib/spikephpcoverage|/lib/zend|/lib/overlib|/lib/minify|/lib/simpletestlib|/lib/swfobject|/lib/tcpdf|/repository/s3/S3.php|/repository/url/locallib.php|/search|/backup/bb/bb5.5_to_moodle.xsl|/backup/bb/bb6_to_moodle.xsl|/backup/cc/schemas|/lang/|/lib/alfresco|/lib/base32.php|/lib/bennu|/lib/csshover.htc|/lib/cookies.js|/lib/dragmath|/lib/excel|/lib/flowplayer|/lib/htmlpurifier|/lib/jabber/XMPP|/lib/markdown.php|/lib/simplepie|/lib/smarty|/lib/xhprof/xhprof_html|/lib/xhprof/xhprof_lib|/question/format/qti_two/templates|/theme/mymobile/javascript|/theme/mymobile/style/jmobilerc2.css|/webservice/amf/testclient/AMFTester.mxml|/webservice/amf/testclient/customValidators/JSONValidator.as"
 
 # files where results will be sent
 lastfile=$WORKSPACE/illegal_whitespace_last_execution_$gitbranch.txt
@@ -84,8 +84,9 @@ else
         rm -fr "$difffile"
         status=0
     else
-        # No best ever yet
+        # No best ever yet: make diff file
         echo "still no back to best ever"
+        diff "$correctfile" "$lastfile" > "$difffile"
     fi
 fi
 exit $status
