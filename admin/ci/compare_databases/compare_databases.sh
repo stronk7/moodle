@@ -16,8 +16,9 @@ resultfile=$WORKSPACE/compare_databases_${gitbranchinstalled}_${gitbranchupgrade
 
 # calculate some variables
 mydir=`dirname $0`
-installdb=ci_installed_${BUILD_NUMBER}
-upgradedb=ci_upgraded_${BUILD_NUMBER}
+installdb=ci_installed_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
+upgradedb=ci_upgraded_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
+datadir=/tmp/ci_dataroot_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
 dbprefixinstall="cii_"
 dbprefixupgrade="ciu_"
 if [[ -z "$dbhost2" ]]
@@ -40,7 +41,7 @@ mysql --user=$dbuser1 --password=$dbpass1 --host=$dbhost1 --execute="CREATE DATA
 # Do the moodle install
 cd $gitdir && git checkout $gitbranchinstalled && git reset --hard origin/$gitbranchinstalled
 rm -fr config.php
-/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="/tmp" --dbtype=$dbtype --dbhost=$dbhost1 --dbname=$installdb --dbuser=$dbuser1 --dbpass=$dbpass1 --prefix=$dbprefixinstall --fullname=$installdb --shortname=$installdb --adminuser=$dbuser1 --adminpass=$dbpass1
+/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost1 --dbname=$installdb --dbuser=$dbuser1 --dbpass=$dbpass1 --prefix=$dbprefixinstall --fullname=$installdb --shortname=$installdb --adminuser=$dbuser1 --adminpass=$dbpass1
 
 # Going to install and upgrade the $gitbranchupgraded database
 # Create the database
@@ -49,7 +50,7 @@ mysql --user=$dbuser1 --password=$dbpass1 --host=$dbhost1 --execute="CREATE DATA
 # Do the moodle install
 cd $gitdir && git checkout $gitbranchupgraded && git reset --hard origin/$gitbranchupgraded
 rm -fr config.php
-/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="/tmp" --dbtype=$dbtype --dbhost=$dbhost2 --dbname=$upgradedb --dbuser=$dbuser2 --dbpass=$dbpass2 --prefix=$dbprefixupgrade --fullname=$upgradedb --shortname=$upgradedb --adminuser=$dbuser2 --adminpass=$dbpass2
+/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost2 --dbname=$upgradedb --dbuser=$dbuser2 --dbpass=$dbpass2 --prefix=$dbprefixupgrade --fullname=$upgradedb --shortname=$upgradedb --adminuser=$dbuser2 --adminpass=$dbpass2
 # Do the moodle upgrade
 cd $gitdir && git checkout $gitbranchinstalled && git reset --hard origin/$gitbranchinstalled
 /opt/local/bin/php admin/cli/upgrade.php --non-interactive --allow-unstable
