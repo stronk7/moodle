@@ -31,7 +31,7 @@
  */
 
 // Increase memory, codebase is huge
-ini_set('memory_limit', '2024M');
+ini_set('memory_limit', '2048M');
 
 require 'PHPCPD/Autoload.php';
 PHPCPD_TextUI_Command::main();
