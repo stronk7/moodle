@@ -2,6 +2,9 @@
 # $gitdir: Directory containing git repo
 # $gitbranch: Branch we are going to examine
 
+# calculate some variables
+mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # dirs and files (egrep-like regexp) we are going to exclude from analysis
 exclude="/.git"
 

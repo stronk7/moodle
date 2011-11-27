@@ -2,8 +2,11 @@
 # $gitdir: Directory containing git repo
 # $gitbranch: Branch we are going to examine
 
+# calculate some variables
+mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # dirs and files (egrep-like regexp) we are going to exclude from analysis
-exclude="/.git|/auth/cas/CAS|/backup/cc/schemas|/backup/cc/schemas11|/lib/adodb|/lib/editor/tinymce/tiny_mce|/lib/typo3|/lib/yui|/lib/pear|/lib/spikephpcoverage|/lib/zend|/lib/overlib|/lib/minify|/lib/simpletestlib|/lib/swfobject|/lib/tcpdf|/repository/s3/S3.php|/repository/url/locallib.php|/search|/backup/bb/bb5.5_to_moodle.xsl|/backup/bb/bb6_to_moodle.xsl|/backup/cc/schemas|/lang/|/lib/alfresco|/lib/base32.php|/lib/bennu|/lib/csshover.htc|/lib/cookies.js|/lib/dragmath|/lib/excel|/lib/flowplayer|/lib/htmlpurifier|/lib/jabber/XMPP|/lib/markdown.php|/lib/simplepie|/lib/smarty|/lib/xhprof/xhprof_html|/lib/xhprof/xhprof_lib|/mod/lti/OAuthBody.php|/question/format/qti_two/templates|/theme/mymobile/javascript|/theme/mymobile/style/jmobilerc2.css|/webservice/amf/testclient/AMFTester.mxml|/webservice/amf/testclient/customValidators/JSONValidator.as"
+. ${mydir}/../define_excluded/define_excluded.sh
 
 # files where results will be sent
 lastfile=$WORKSPACE/illegal_whitespace_last_execution_$gitbranch.txt
@@ -19,7 +22,7 @@ cd $gitdir && git checkout $gitbranch && git reset --hard origin/$gitbranch
 echo -n > "$lastfile"
 for i in `find . -type f`
 do
-    if [[ $i =~ $exclude ]]
+    if [[ $i =~ $excluded_grep ]]
     then
         continue
     fi
