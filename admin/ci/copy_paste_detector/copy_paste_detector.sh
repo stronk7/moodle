@@ -1,0 +1,19 @@
+#!/bin/bash
+# $gitdir: Directory containing git repo
+# $gitbranch: Branch we are going to check
+# file where results will be sent
+resultfile=${WORKSPACE}/copy_paste_detector.xml
+
+# calculate some variables
+mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# list of excluded dirs
+. ${mydir}/../define_excluded/define_excluded.sh
+
+# checkout pristine copy of the configure branch
+cd ${gitdir} && git checkout ${gitbranch} && git reset --hard origin/${gitbranch}
+
+# Run phpcpd against the whole codebase
+/opt/local/bin/php ${mydir}/copy_paste_detector.php ${excluded_list} --quiet --log-pmd "${resultfile}" ${gitdir}
+# Always return ok
+exit 0
