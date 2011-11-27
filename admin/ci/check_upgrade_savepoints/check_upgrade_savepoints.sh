@@ -7,7 +7,7 @@ resultfile=$WORKSPACE/check_upgrade_savepoints_${gitbranch}.txt
 echo -n > "$resultfile"
 
 # calculate some variables
-mydir=`dirname $0`
+mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # checkout pristine copy of the configure branch
 cd $gitdir && git checkout $gitbranch && git reset --hard origin/$gitbranch

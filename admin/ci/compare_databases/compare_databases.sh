@@ -15,7 +15,7 @@
 resultfile=$WORKSPACE/compare_databases_${gitbranchinstalled}_${gitbranchupgraded}.txt
 
 # calculate some variables
-mydir=`dirname $0`
+mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 installdb=ci_installed_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
 upgradedb=ci_upgraded_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
 datadir=/tmp/ci_dataroot_${BUILD_NUMBER}_${EXECUTOR_NUMBER}
