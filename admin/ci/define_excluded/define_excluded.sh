@@ -60,4 +60,11 @@ for i in ${excluded}
 do
     excluded_list="${excluded_list} --exclude ${i}"
 done
-echo ${excluded_list}
+
+# Exclude syntax for phpmd (comma separated)
+excluded_comma=""
+for i in ${excluded}
+do
+    excluded_comma="${excluded_comma},${i}"
+done
+excluded_comma=${excluded_comma//,\.git/.git}
