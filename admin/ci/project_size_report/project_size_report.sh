@@ -11,7 +11,7 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . ${mydir}/../define_excluded/define_excluded.sh
 
 # checkout pristine copy of the configure branch
-cd ${gitdir} && git checkout ${gitbranch} && git reset --hard origin/${gitbranch}
+cd ${gitdir} && git checkout ${gitbranch} && git fetch && git reset --hard origin/${gitbranch}
 
 # Run phploc against the whole codebase
 /opt/local/bin/php ${mydir}/project_size_report.php ${excluded_list} --count-tests --log-csv "${resultfile}" ${gitdir}
