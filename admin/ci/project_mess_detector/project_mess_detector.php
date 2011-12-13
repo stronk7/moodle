@@ -33,5 +33,13 @@
 // Increase memory, codebase is huge
 ini_set('memory_limit', '4096M');
 
+// Prevent the default timezone msg
+if (function_exists('date_default_timezone_set') and function_exists('date_default_timezone_get')) {
+    $olddebug = error_reporting(0);
+    date_default_timezone_set(date_default_timezone_get());
+    error_reporting($olddebug);
+    unset($olddebug);
+}
+
 require_once 'PHP/PMD/TextUI/Command.php';
 exit(PHP_PMD_TextUI_Command::main($argv));
