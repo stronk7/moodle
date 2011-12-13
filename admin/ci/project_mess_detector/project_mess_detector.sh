@@ -19,14 +19,13 @@ cd ${WORKSPACE} && git checkout ${gitbranch} && git fetch && git reset --hard or
 buildxml="$( find "${WORKSPACE}" -name build.xml | sed 's/\/build.xml//g' | sort -r)"
 for dir in ${buildxml}
     do
+        echo "---------- ---------- ----------"
         echo "processing ${dir}"
-        cd ${dir}
-        /opt/local/bin/php ${mydir}/project_mess_detector.php . xml codesize,unusedcode,design --exclude ${excluded_comma} --reportfile "${dir}/${resultfilename}"
-        excluded_comma="${excluded_comma},${dir}"
+        echo "with excluded ${excluded_comma}"
+        /opt/local/bin/php ${mydir}/project_mess_detector.php ${dir} xml codesize,unusedcode,design --exclude ${excluded_comma} --reportfile "${dir}/${resultfilename}"
+        newexclude="$( echo ${dir} | sed s#${WORKSPACE}/##g )"
+        excluded_comma="${excluded_comma},${newexclude}/"
     done
-
-# checkout pristine copy of the configure branch
-cd ${WORKSPACE} && git checkout ${gitbranch} && git fetch && git reset --hard origin/${gitbranch}
 
 # Always return ok
 exit 0
