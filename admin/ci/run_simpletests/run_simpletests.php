@@ -96,7 +96,7 @@ $UNITTEST = new stdClass();
 define('TIME_ALLOWED_PER_UNIT_TEST', 60);
 
 // Create the group of tests.
-$test = new cli_group_test(false, 'Moodle Unit Tests');
+$test = new cli_group_test(false, 'Moodle simpletest Unit Tests');
 
 // Pick a format (simpletest reporter)
 if ($format == 'txt') {
@@ -131,4 +131,20 @@ if (is_file($path)) {
 
 // And run them
 cron_setup_user(); // Nasty hack to set current user
-$test->run($reporter);
+if ($format == 'xunit') {
+    // Capture and transform the xml format to xunit one
+    ob_start();
+    $test->run($reporter);
+    $xmlcontents = ob_get_contents();
+    ob_end_clean();
+    // We need to clean the information in some passes. Not valid UTF-8
+    $xmlcontents = iconv('UTF-8', 'UTF-8//IGNORE', $xmlcontents);
+    // And also some horrible control chars
+    $xmlcontents = preg_replace('/[\x-\x8\xb-\xc\xe-\x1f\x7f]/is','', $xmlcontents);
+    // Let's transform it now
+    $xslt = new XSLTProcessor();
+    $xslt->importStylesheet(new SimpleXMLElement($reporter->simpletest2xunit));
+    echo $xslt->transformToXML(new SimpleXMLElement($xmlcontents));
+} else {
+    $test->run($reporter);
+}
