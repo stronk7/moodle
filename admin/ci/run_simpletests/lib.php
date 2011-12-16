@@ -55,9 +55,11 @@ class cli_xml_reporter extends XMLReporter {
         if ($this->pre != null) {
             $duration = $post - $this->pre;
             // how can post time be less than pre?  assuming zero if this happens..
-            if ($post < $this->pre) $duration = 0;
-              print $this->_getIndent(1);
-              print "<time>$duration</time>\n";
+            if ($post < $this->pre) {
+                $duration = 0;
+            }
+            print $this->_getIndent(1);
+            print "<time>$duration</time>\n";
         }
         parent::paintMethodEnd($test_name);
         $this->pre = null;
@@ -88,6 +90,7 @@ class cli_xunit_reporter extends cli_xml_reporter {
       <xsl:attribute name="tests"><xsl:value-of select="count(.//test)"/></xsl:attribute>
       <xsl:attribute name="failures"><xsl:value-of select="count(.//fail)"/></xsl:attribute>
       <xsl:attribute name="errors"><xsl:value-of select="count(.//exception)"/></xsl:attribute>
+      <xsl:comment> Totals: <xsl:value-of select="count(.//test)"/> testcases, <xsl:value-of select="count(.//fail)"/> failed, <xsl:value-of select="count(.//exception)"/> exceptions, <xsl:value-of select="count(.//skip)"/> skipped </xsl:comment>
       <xsl:apply-templates select=".//group"/>
     </testsuites>
   </xsl:template>
@@ -95,12 +98,15 @@ class cli_xunit_reporter extends cli_xml_reporter {
   <xsl:template match="group">
     <testsuite>
       <xsl:attribute name="name"><xsl:value-of select="name"/></xsl:attribute>
-      <xsl:attribute name="tests"><xsl:value-of select="count(.//pass)+count(.//fail)+count(.//exception)+count(.//skip)"/></xsl:attribute>
+      <xsl:attribute name="tests"><xsl:value-of select="count(.//test)"/></xsl:attribute>
       <xsl:attribute name="failures"><xsl:value-of select="count(.//fail)"/></xsl:attribute>
       <xsl:attribute name="errors"><xsl:value-of select="count(.//exception)"/></xsl:attribute>
       <xsl:attribute name="time"><xsl:value-of select="sum(.//time)"/></xsl:attribute>
       <xsl:attribute name="skipped"><xsl:value-of select="count(.//skip)"/></xsl:attribute>
       <xsl:apply-templates select=".//case/test"/>
+      <!-- simpletest reports skipped tests @ group (testsuite) level instead of
+           doing so @ cae (testcase) level, so we need to "invent" one fake testcase :-( -->
+      <xsl:apply-templates select=".//skip"/>
       <xsl:copy-of select="//system-err"/>
     </testsuite>
   </xsl:template>
@@ -111,9 +117,18 @@ class cli_xunit_reporter extends cli_xml_reporter {
       <xsl:attribute name="assertions"><xsl:value-of select="count(.//pass)+count(.//fail)+count(.//exception)+count(.//skip)"/></xsl:attribute>
       <xsl:attribute name="time"><xsl:value-of select="time"/></xsl:attribute>
       <xsl:attribute name="classname"><xsl:value-of select="../name"/></xsl:attribute>
-      <xsl:attribute name="skipped"><xsl:value-of select="count(.//skip)"/></xsl:attribute>
       <xsl:apply-templates select="fail"/>
       <xsl:apply-templates select="exception"/>
+    </testcase>
+  </xsl:template>
+
+  <xsl:template match="skip">
+    <testcase>
+      <xsl:attribute name="name"><xsl:value-of select="../../name"/></xsl:attribute>
+      <xsl:attribute name="classname">Attention: skipped_testcase!</xsl:attribute>
+      <skipped>
+        <xsl:copy-of select="../skip"/>
+      </skipped>
     </testcase>
   </xsl:template>
 

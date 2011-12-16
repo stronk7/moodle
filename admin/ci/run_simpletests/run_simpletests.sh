@@ -28,10 +28,9 @@ rm -fr config.php
 
 # Copy the run utility to the $gitdir
 mkdir -p $gitdir/admin/ci/run_simpletests
-cp $mydir/run_simpletests.php $gitdir/admin/ci/run_simpletests/
+cp $mydir/*.php $gitdir/admin/ci/run_simpletests/
 
 # Execute the simpletest utility
-echo /opt/local/bin/php ${gitdir}/admin/ci/run_simpletests/run_simpletests.php --format=xunit --path=${testpath} > "${resultfile}"
 /opt/local/bin/php ${gitdir}/admin/ci/run_simpletests/run_simpletests.php --format=xunit --path=${testpath} > "${resultfile}"
 exitstatus=${PIPESTATUS[0]}
 

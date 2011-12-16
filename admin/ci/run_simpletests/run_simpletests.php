@@ -89,6 +89,8 @@ raise_memory_limit(MEMORY_EXTRA);
 global $UNITTEST;
 $UNITTEST = new stdClass();
 
+$CFG->unittestprefix='t_'; // Need this to run all them
+
 // This limit is the time allowed per individual test function. Please do not
 // increase this value. If you get a PHP time limit when running unit tests,
 // find the unit test which is running slowly, and either make it faster,
@@ -141,6 +143,8 @@ if ($format == 'xunit') {
     $xmlcontents = iconv('UTF-8', 'UTF-8//IGNORE', $xmlcontents);
     // And also some horrible control chars
     $xmlcontents = preg_replace('/[\x-\x8\xb-\xc\xe-\x1f\x7f]/is','', $xmlcontents);
+    // Finally, clean absolute paths
+    $xmlcontents = preg_replace("!{$CFG->dirroot}!", '', $xmlcontents);
     // Let's transform it now
     $xslt = new XSLTProcessor();
     $xslt->importStylesheet(new SimpleXMLElement($reporter->simpletest2xunit));
