@@ -93,7 +93,7 @@ Example:
 ";
 
     echo $help;
-    die;
+    exit(0);
 }
 
 // Always run the comparison in developer debug mode.

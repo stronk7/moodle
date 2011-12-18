@@ -62,7 +62,7 @@ Example:
 ";
 
     echo $help;
-    die;
+    exit(0);
 }
 
 if (empty($options['basedir'])) {
