@@ -24,7 +24,17 @@ mysql --user=$dbuser --password=$dbpass --host=$dbhost --execute="CREATE DATABAS
 # Do the moodle install
 cd $gitdir && git checkout $gitbranch && git reset --hard origin/$gitbranch
 rm -fr config.php
-/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost --dbname=$installdb --dbuser=$dbuser1 --dbpass=$dbpass --prefix=$dbprefixinstall --fullname=$installdb --shortname=$installdb --adminuser=$dbuser --adminpass=$dbpass
+/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost --dbname=$installdb --dbuser=$dbuser --dbpass=$dbpass --prefix=$dbprefixinstall --fullname=$installdb --shortname=$installdb --adminuser=$dbuser --adminpass=$dbpass
+
+# Copy the configure utility to the $gitdir
+mkdir -p $gitdir/admin/ci/configure_site
+cp $mydir/../configure_site/*.php $gitdir/admin/ci/configure_site/
+
+# Inject $CFG->debug = 38911 (DEBUG_DEVELOPER) in database (generator requies that)
+/opt/local/bin/php ${gitdir}/admin/ci/configure_site/configure_site.php --rule=db,add,debug,38911
+
+# Fill the site with some auto-generated information
+/opt/local/bin/php admin/tool/generator/cli/generate.php --verbose --database_prefix=$dbprefixinstall --username=$dbuser --password=$dbpass --number_of_courses=1 --number_of_students=2 --number_of_sections=3 --number_of_modules=1 --modules_list=label --questions_per_course=0
 
 # Copy the run utility to the $gitdir
 mkdir -p $gitdir/admin/ci/run_simpletests

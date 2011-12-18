@@ -24,6 +24,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 class cli_text_reporter extends TextReporter {
 
     function paintNotice($message) { }
@@ -124,7 +126,7 @@ class cli_xunit_reporter extends cli_xml_reporter {
 
   <xsl:template match="skip">
     <testcase>
-      <xsl:attribute name="name"><xsl:value-of select="../../name"/></xsl:attribute>
+      <xsl:attribute name="name"><xsl:value-of select="../name"/></xsl:attribute>
       <xsl:attribute name="classname">Attention: skipped_testcase!</xsl:attribute>
       <skipped>
         <xsl:copy-of select="../skip"/>
