@@ -92,7 +92,7 @@ class cli_xunit_reporter extends cli_xml_reporter {
       <xsl:attribute name="tests"><xsl:value-of select="count(.//test)"/></xsl:attribute>
       <xsl:attribute name="failures"><xsl:value-of select="count(.//fail)"/></xsl:attribute>
       <xsl:attribute name="errors"><xsl:value-of select="count(.//exception)"/></xsl:attribute>
-      <xsl:comment> Totals: <xsl:value-of select="count(.//test)"/> testcases, <xsl:value-of select="count(.//fail)"/> failed, <xsl:value-of select="count(.//exception)"/> exceptions, <xsl:value-of select="count(.//skip)"/> skipped </xsl:comment>
+      <xsl:comment>Totals: <xsl:value-of select="count(.//test)"/> testcases, <xsl:value-of select="count(.//fail)"/> failed, <xsl:value-of select="count(.//exception)"/> exceptions, <xsl:value-of select="count(.//skip)"/> skipped, <xsl:value-of select="count(.//pass)+count(.//fail)+count(.//exception)+count(.//skip)"/> assertions</xsl:comment>
       <xsl:apply-templates select=".//group"/>
     </testsuites>
   </xsl:template>
