@@ -45,7 +45,7 @@ repository/s3/S3.php
 repository/url/locallib.php
 search/
 theme/mymobile/javascript/
-theme/mymobile/style/jmobilerc2.css
+theme/mymobile/style/jmobile
 webservice/amf/testclient/AMFTester.mxml
 webservice/amf/testclient/customValidators/JSONValidator.as"
 
