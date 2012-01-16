@@ -35,29 +35,69 @@ then
 fi
 
 # Going to install the $gitbranchinstalled database
-# Create the database
+# Create the database to install
 # TODO: Based on $dbtype, execute different DB creation commands
 mysql --user=$dbuser1 --password=$dbpass1 --host=$dbhost1 --execute="CREATE DATABASE $installdb CHARACTER SET utf8 COLLATE utf8_bin"
-# Do the moodle install
+# Error creating DB, we cannot continue. Exit
+exitstatus=${PIPESTATUS[0]}
+if [ $exitstatus -ne 0 ]; then
+    echo "Error creating database $installdb to test upgrade"
+    exit $exitstatus
+fi
+
+# Create the database to upgrade
+# TODO: Based on $dbtype, execute different DB creation commands
+mysql --user=$dbuser1 --password=$dbpass1 --host=$dbhost1 --execute="CREATE DATABASE $upgradedb CHARACTER SET utf8 COLLATE utf8_bin"
+# Error creating DB, we cannot continue. Exit
+exitstatus=${PIPESTATUS[0]}
+if [ $exitstatus -ne 0 ]; then
+    echo "Error creating database $upgradedb to test upgrade"
+    exit $exitstatus
+fi
+
+# Do the moodle install of $installdb
 cd $gitdir && git checkout $gitbranchinstalled && git reset --hard origin/$gitbranchinstalled
 rm -fr config.php
 /opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost1 --dbname=$installdb --dbuser=$dbuser1 --dbpass=$dbpass1 --prefix=$dbprefixinstall --fullname=$installdb --shortname=$installdb --adminuser=$dbuser1 --adminpass=$dbpass1
+# Error installing, we cannot continue. Exit
+exitstatus=${PIPESTATUS[0]}
+if [ $exitstatus -ne 0 ]; then
+    echo "Error installing $gitbranchinstalled to test upgrade"
+fi
 
 # Going to install and upgrade the $gitbranchupgraded database
-# Create the database
-# TODO: Based on $dbtype, execute different DB creation commands
-mysql --user=$dbuser1 --password=$dbpass1 --host=$dbhost1 --execute="CREATE DATABASE $upgradedb CHARACTER SET utf8 COLLATE utf8_bin"
-# Do the moodle install
-cd $gitdir && git checkout $gitbranchupgraded && git reset --hard origin/$gitbranchupgraded
-rm -fr config.php
-/opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost2 --dbname=$upgradedb --dbuser=$dbuser2 --dbpass=$dbpass2 --prefix=$dbprefixupgrade --fullname=$upgradedb --shortname=$upgradedb --adminuser=$dbuser2 --adminpass=$dbpass2
+
+# Do the moodle install of $upgradedb
+# only if we don't come from an erroneus previous situation
+if [ $exitstatus -eq 0 ]; then
+    cd $gitdir && git checkout $gitbranchupgraded && git reset --hard origin/$gitbranchupgraded
+    rm -fr config.php
+    /opt/local/bin/php admin/cli/install.php --non-interactive --allow-unstable --agree-license --wwwroot="http://localhost" --dataroot="$datadir" --dbtype=$dbtype --dbhost=$dbhost2 --dbname=$upgradedb --dbuser=$dbuser2 --dbpass=$dbpass2 --prefix=$dbprefixupgrade --fullname=$upgradedb --shortname=$upgradedb --adminuser=$dbuser2 --adminpass=$dbpass2
+    # Error installing, we cannot continue. Exit
+    exitstatus=${PIPESTATUS[0]}
+    if [ $exitstatus -ne 0 ]; then
+        echo "Error installing $gitbranchupgraded to test upgrade"
+    fi
+fi
+
 # Do the moodle upgrade
-cd $gitdir && git checkout $gitbranchinstalled && git reset --hard origin/$gitbranchinstalled
-/opt/local/bin/php admin/cli/upgrade.php --non-interactive --allow-unstable
+# only if we don't come from an erroneus previous situation
+if [ $exitstatus -eq 0 ]; then
+    cd $gitdir && git checkout $gitbranchinstalled && git reset --hard origin/$gitbranchinstalled
+    /opt/local/bin/php admin/cli/upgrade.php --non-interactive --allow-unstable
+    # Error upgrading, inform and continue
+    exitstatus=${PIPESTATUS[0]}
+    if [ $exitstatus -ne 0 ]; then
+        echo "Error upgrading from $gitbranchupgraded to $gitbranchinstalled"
+    fi
+fi
 
 # Run the DB compare utility, saving results to file
-/opt/local/bin/php $mydir/compare_databases.php --dblibrary=$dblibrary --dbtype=$dbtype --dbhost1=$dbhost1 --dbname1=$installdb --dbuser1=$dbuser1 --dbpass1=$dbpass1 --dbprefix1=$dbprefixinstall --dbhost1=$dbhost1 --dbname2=$upgradedb --dbuser2=$dbuser2 --dbpass2=$dbpass2 --dbprefix2=$dbprefixupgrade > "$resultfile"
-exitstatus=${PIPESTATUS[0]}
+# only if we don't come from an erroneus situation on upgrade
+if [ $exitstatus -eq 0 ]; then
+    /opt/local/bin/php $mydir/compare_databases.php --dblibrary=$dblibrary --dbtype=$dbtype --dbhost1=$dbhost1 --dbname1=$installdb --dbuser1=$dbuser1 --dbpass1=$dbpass1 --dbprefix1=$dbprefixinstall --dbhost1=$dbhost1 --dbname2=$upgradedb --dbuser2=$dbuser2 --dbpass2=$dbpass2 --dbprefix2=$dbprefixupgrade > "$resultfile"
+    exitstatus=${PIPESTATUS[0]}
+fi
 
 # Drop the databases and delete files
 # TODO: Based on $dbtype, execute different DB deletion commands
