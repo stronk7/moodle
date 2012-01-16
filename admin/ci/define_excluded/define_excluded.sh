@@ -65,6 +65,13 @@ do
     excluded_list="${excluded_list} --exclude ${i}"
 done
 
+# Exclude syntax for apigen (list of exclude parameters with * wildcards)
+excluded_list_wildchars=""
+for i in ${excluded}
+do
+    excluded_list_wildchars="${excluded_list_wildchars} --exclude */${i}*"
+done
+
 # Exclude syntax for phpmd (comma separated)
 excluded_comma=""
 for i in ${excluded}
