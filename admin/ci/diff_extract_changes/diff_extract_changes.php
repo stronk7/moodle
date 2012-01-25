@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,9 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Simple wrapper over the apigen PECL tool (phpdocs generator)
- * http://apigen.org
- *
  * Extract all modified lines from an unified diff file
  *
  * The script, given the path to one unified diff file will return
@@ -29,8 +25,9 @@
  * on each one. Such information will be used later for a lot of static
  * code analyzers to determine if the changes are introducing new errors.
  *
- * @package    core
- * @subpackage ci
+ * @category   ci
+ * @package    local_ci
+ * @subpackage diff_extract_changes
  * @copyright  2012 Eloy Lafuente (http://stronk7.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -95,8 +92,6 @@ $dec->process();
  * modified. Suitable to select interesting information from any static
  * code analyzer by intersecting results.
  *
- * @package    core
- * @subpackage ci
  * @copyright  2012 Eloy Lafuente (http://stronk7.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -114,8 +109,8 @@ class diff_changes_extractor {
     /**
      * Create one instance of the diff extractor
      *
-     * @param string file   path to the unified diff file
-     * @param string output format to output the information (txt|xml)
+     * @param string $file   path to the unified diff file
+     * @param string $output format to output the information (txt|xml)
      *
      * @return diff_changes_extractor
      */
@@ -266,7 +261,7 @@ class diff_changes_extractor {
     /**
      * Output begin of file changes
      *
-     * @param string file path of the file we are going to show changes
+     * @param string $file path of the file we are going to show changes
      */
     private function output_file_begin($file) {
         if ($this->output == 'xml') {
@@ -279,7 +274,7 @@ class diff_changes_extractor {
     /**
      * Output bend of file changes
      *
-     * @param string file path of the file we are going to show changes
+     * @param string $file path of the file we are going to show changes
      */
     private function output_file_end($file) {
         if ($this->output == 'xml') {
@@ -292,7 +287,7 @@ class diff_changes_extractor {
     /**
      * Output begin of interval of line changes
      *
-     * @param array interval of lines changed
+     * @param array $interval of lines changed
      */
     private function output_interval_begin($interval) {
         if ($this->output == 'xml') {
@@ -305,7 +300,7 @@ class diff_changes_extractor {
     /**
      * Output end of interval of line changes
      *
-     * @param array interval of lines changed
+     * @param array $interval of lines changed
      */
     private function output_interval_end($interval) {
         if ($this->output == 'xml') {
