@@ -29,7 +29,7 @@ require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(array('help'=>false, 'ie9fix'=>false, 'noaspectratio'=>false, 'path'=>$CFG->dirroot),
+list($options, $unrecognized) = cli_get_params(array('help'=>false, 'ie9fix'=>false, 'noaspectratio'=>false, 'hippie'=>false, 'path'=>$CFG->dirroot),
     array('h'=>'help'));
 
 if ($unrecognized) {
@@ -50,6 +50,9 @@ if ($options['ie9fix']) {
 } else if ($options['noaspectratio']) {
     theme_base_recurse_svgs($path, '', 'theme_base_svgtool_noaspectratio', $blacklist);
 
+} else if ($options['hippie']) {
+    theme_base_recurse_svgs($path, '', 'theme_base_svgtool_hippie', $blacklist);
+
 } else {
     $help =
         "Some svg image tweaks for icon designers.
@@ -59,6 +62,7 @@ Options:
 -h, --help            Print out this help
 --ie9fix              Adds preserveAspectRatio=\"xMinYMid meet\" to every svg image
 --noaspectratio       Removes preserveAspectRatio from svg files
+--hippie              Convert all svg icons to use the rainbow colors
 --path=PATH           Path to directory or file to be converted, by default \$CFG->dirroot
 
 Examples:
@@ -134,6 +138,39 @@ function theme_base_svgtool_noaspectratio($file) {
     $newsvg = preg_replace('/ ?preserveAspectRatio="xMinYMid meet"/', '', $svg);
 
     $content = str_replace($svg, $newsvg, $content);
+    echo "resetting $relfile\n";
+    file_put_contents($file, $content);
+}
+
+function theme_base_svgtool_hippie($file) {
+    global $CFG;
+
+    $rainbowcolors = array('#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8F00FF');
+
+    if (strpos($file, $CFG->dirroot.DIRECTORY_SEPARATOR) === 0) {
+        $relfile = substr($file, strlen($CFG->dirroot));
+    } else {
+        $relfile = $file;
+    }
+
+    $content = file_get_contents($file);
+
+    if (!preg_match('/<svg\s[^>]*>/', $content, $matches)) {
+        echo "  skipping $relfile (invalid format)\n";
+        return;
+    }
+    $svg = $matches[0];
+    if (preg_match($svg, '/"fill:#[a-f0-9]{6};" /i') === false) {
+        return;
+    }
+
+    if (!is_writable($file)) {
+        echo "  skipping $relfile (can not modify file)\n";
+        return;
+    }
+
+    $content = preg_replace('/"fill:#[a-f0-9]{6};" /i', '"fill:' . $rainbowcolors[crc32($file) % 7] . ';" ', $content);
+
     echo "resetting $relfile\n";
     file_put_contents($file, $content);
 }
