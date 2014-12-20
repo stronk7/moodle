@@ -206,6 +206,7 @@ class cachestore_mongodb extends cache_store implements cache_is_configurable {
         $this->database = $this->connection->selectDB($this->databasename);
         $this->definitionhash = 'm'.$definition->generate_definition_hash();
         $this->collection = $this->database->selectCollection($this->definitionhash);
+        $this->extendedmode = $this->extendedmode && $definition->uses_simple_keys();
 
         $options = array('name' => 'idx_key');
         if ($this->legacymongo) {
@@ -278,15 +279,9 @@ class cachestore_mongodb extends cache_store implements cache_is_configurable {
      */
     public function get_many($keys) {
         if ($this->extendedmode) {
-            $query = $this->get_many_extendedmode_query($keys);
-            $keyarray = array();
-            foreach ($keys as $key) {
-                $keyarray[] = $key['key'];
-            }
-            $keys = $keyarray;
-            $query = array('key' => array('$in' => $keys));
+            $query = $this->get_extendedmode_query($keys);
         } else {
-            $query = array('key' => array('$in' => $keys));
+            $query = array('key' => array('$in' => array_values($keys)));
         }
         $cursor = $this->collection->find($query);
         $results = array();
@@ -294,12 +289,33 @@ class cachestore_mongodb extends cache_store implements cache_is_configurable {
             $id = (string)$result['key'];
             $results[$id] = unserialize($result['data']);
         }
-        foreach ($keys as $key) {
+        foreach ($keys as $id => $key) {
+            if ($this->extendedmode) {
+                $key = $id;
+            }
             if (!array_key_exists($key, $results)) {
                 $results[$key] = false;
             }
         }
         return $results;
+    }
+
+    /**
+     * Given an array of arrays for data to get from the store returns a query.
+     *
+     * @param array[] $requests
+     * @return array
+     */
+    protected function get_extendedmode_query(array $requests) {
+        $query = reset($requests);
+        if (count($requests) > 1) {
+            $keys = array();
+            foreach ($requests as $request) {
+                $keys[] = $request['key'];
+            }
+            $query['key'] = array('$in' => $keys);
+        }
+        return $query;
     }
 
     /**
