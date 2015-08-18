@@ -101,7 +101,7 @@ abstract class moodleform_mod extends moodleform {
         $this->_features->showdescription   = plugin_supports('mod', $this->_modname, FEATURE_SHOW_DESCRIPTION, false);
         $this->_features->gradecat          = ($this->_features->outcomes or $this->_features->hasgrades);
         $this->_features->advancedgrading   = plugin_supports('mod', $this->_modname, FEATURE_ADVANCED_GRADING, false);
-        $this->_features->canrescale = !empty(component_callback_exists('mod_' . $this->_modname, 'rescale_activity_grades'));
+        $this->_features->canrescale = (component_callback_exists('mod_' . $this->_modname, 'rescale_activity_grades') !== false);
     }
 
     /**
