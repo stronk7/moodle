@@ -71,10 +71,6 @@ install:
     # Typically it should be able to use the Composer cache if any other job has already completed before we started here.
     - travis_retry composer install --prefer-dist --no-interaction
 
-    - echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
 before_script:
     - >
       if [ "$INSTALL" = 'true' -o "$PHPUNIT" = 'true' ];
