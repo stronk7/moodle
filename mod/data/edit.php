@@ -296,8 +296,8 @@ if ($data->addtemplate){
         $replacements[] = data_generate_tag_form($rid);
     }
 
-    $newtext = str_ireplace($patterns, $replacements, $data->{$mode});
-
+    $templatecontents = data_filter_template($data->{$mode}, $patterns, $context);
+    $newtext = str_ireplace($patterns, $replacements, $templatecontents);
 } else {    //if the add template is not yet defined, print the default form!
     echo data_generate_default_template($data, 'addtemplate', $rid, true, false);
     $newtext = '';

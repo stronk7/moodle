@@ -1552,8 +1552,10 @@ function data_print_template($template, $records, $data, $search='', $page=0, $r
                 core_tag_tag::get_item_tags('mod_data', 'data_records', $record->id), '', 'data-tags');
         }
 
+        $templatecontents = data_filter_template($data->{$template}, $patterns, $context);
+
         // actual replacement of the tags
-        $newtext = str_ireplace($patterns, $replacement, $data->{$template});
+        $newtext = str_ireplace($patterns, $replacement, $templatecontents);
 
         // no more html formatting and filtering - see MDL-6635
         if ($return) {
@@ -1590,6 +1592,32 @@ function data_print_template($template, $records, $data, $search='', $page=0, $r
             }
         }
     }
+}
+
+/**
+ * Apply filters to the template we are about to render.
+ *
+ * @param string $template the template
+ * @param string[] $patterns the tags that the database activity will ater be substituting
+ * @param context $context the context we will be displaying the filter in
+ * @return string the template with filters applied
+ */
+function data_filter_template($template, $patterns, $context) {
+    global $CFG;
+
+    if ($CFG->debugdeveloper) {
+        $alltags = implode(', ', $patterns);
+
+        $alltagsfiltered = format_text($alltags, FORMAT_HTML, ['trusted' => true, 'noclean' => true]);
+
+        foreach ($patterns as $pattern) {
+            if (strpos($alltagsfiltered, $pattern) === false) {
+                debugging('Collision between enabled filters and tag: ' . $pattern, DEBUG_DEVELOPER);
+            }
+        }
+    }
+
+    return $filteredtemplate = format_text($template, FORMAT_HTML, ['trusted' => true, 'noclean' => true]);
 }
 
 /**
