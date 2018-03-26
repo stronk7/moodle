@@ -4449,13 +4449,13 @@ function complete_user_login($user) {
         // Check if there are any legacy messages to migrate.
         $sql = "SELECT id
                   FROM {message} m
-                 WHERE useridfrom = ? 
+                 WHERE useridfrom = ?
                     OR useridto = ?";
         $messageexists = $DB->record_exists_sql($sql, [$USER->id, $USER->id]);
 
         $sql = "SELECT id
                   FROM {message_read} m
-                 WHERE useridfrom = ? 
+                 WHERE useridfrom = ?
                     OR useridto = ?";
         $messagereadexists = $DB->record_exists_sql($sql, [$USER->id, $USER->id]);
 
