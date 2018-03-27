@@ -60,33 +60,37 @@ class core_message_migrate_message_data_task_testcase extends advanced_testcase 
         $user3 = $this->getDataGenerator()->create_user();
 
         // Get the current time minus some, to make sure our data is migrated accurately and just not using the current timestamp.
-        $timedeleted = time() - (2 * DAYSECS);
-        $timeread = time() - DAYSECS;
+        $now = time();
+        $timedeleted1 = $now - (2 * DAYSECS);
+        $timedeleted2 = $now - (2 * DAYSECS) + 1;
+        $timeread1 = $now - DAYSECS;
+        $timeread2 = $now - DAYSECS + 1;
+        $timeread3 = $now - DAYSECS + 2;
 
         // Send messages from user 1 to user 2.
-        $m1 = $this->create_legacy_message_or_notification($user1->id, $user2->id, 1, false, $timeread);
+        $m1 = $this->create_legacy_message_or_notification($user1->id, $user2->id, 1, false, $timeread1);
         $m2 = $this->create_legacy_message_or_notification($user1->id, $user2->id, 2);
         $m3 = $this->create_legacy_message_or_notification($user1->id, $user2->id, 3);
 
         // Send messages from user 3 to user 1.
-        $m4 = $this->create_legacy_message_or_notification($user3->id, $user1->id, 4, false, $timeread);
+        $m4 = $this->create_legacy_message_or_notification($user3->id, $user1->id, 4, false, $timeread2);
         $m5 = $this->create_legacy_message_or_notification($user3->id, $user1->id, 5);
         $m6 = $this->create_legacy_message_or_notification($user3->id, $user1->id, 6);
 
         // Send messages from user 3 to user 2.
-        $m7 = $this->create_legacy_message_or_notification($user3->id, $user2->id, 7, false, $timeread);
+        $m7 = $this->create_legacy_message_or_notification($user3->id, $user2->id, 7, false, $timeread3);
         $m8 = $this->create_legacy_message_or_notification($user3->id, $user2->id, 8);
         $m9 = $this->create_legacy_message_or_notification($user3->id, $user2->id, 9);
 
         // Let's delete some messages, not using API here as it does not use the legacy tables.
         $messageupdate = new stdClass();
         $messageupdate->id = $m1;
-        $messageupdate->timeusertodeleted = $timedeleted;
+        $messageupdate->timeusertodeleted = $timedeleted1;
         $DB->update_record('message_read', $messageupdate);
 
         $messageupdate = new stdClass();
         $messageupdate->id = $m5;
-        $messageupdate->timeuserfromdeleted = $timedeleted;
+        $messageupdate->timeuserfromdeleted = $timedeleted2;
         $DB->update_record('message', $messageupdate);
 
         // Now, let's execute the task for user 1.
@@ -143,34 +147,39 @@ class core_message_migrate_message_data_task_testcase extends advanced_testcase 
         $this->assertEquals(4, $DB->count_records('message_user_actions'));
 
         // Confirm the messages that were marked as read have actions associated with them.
-        $muas = $DB->get_records('message_user_actions', ['action' => \core_message\api::MESSAGE_ACTION_READ]);
+        $muas = $DB->get_records('message_user_actions', ['action' => \core_message\api::MESSAGE_ACTION_READ], 'timecreated DESC');
         $this->assertCount(2, $muas);
 
+        // Message user action for message read by user 1 (referring to $m4).
         $mua1 = array_shift($muas);
+        // Message user action for message read by user 2 (referring to $m1).
         $mua2 = array_shift($muas);
 
         $this->assertEquals($user1->id, $mua1->userid);
         $this->assertEquals($messagereadid2, $mua1->messageid);
-        $this->assertEquals($timeread, $mua1->timecreated);
+        $this->assertEquals($timeread2, $mua1->timecreated);
 
         $this->assertEquals($user2->id, $mua2->userid);
         $this->assertEquals($messagereadid1, $mua2->messageid);
-        $this->assertEquals($timeread, $mua2->timecreated);
+        $this->assertEquals($timeread1, $mua2->timecreated);
 
         // Confirm the messages that were deleted have actions associated with them.
-        $muas = $DB->get_records('message_user_actions', ['action' => \core_message\api::MESSAGE_ACTION_DELETED]);
+        $muas = $DB->get_records('message_user_actions', ['action' => \core_message\api::MESSAGE_ACTION_DELETED],
+            'timecreated DESC');
         $this->assertCount(2, $muas);
 
+        // Message user action for message deleted by user 3 (referring to $m5).
         $mua1 = array_shift($muas);
+        // Message user action for message deleted by user 2 (referring to $m1).
         $mua2 = array_shift($muas);
 
         $this->assertEquals($user3->id, $mua1->userid);
         $this->assertEquals($messagedeletedid2, $mua1->messageid);
-        $this->assertEquals($timedeleted, $mua1->timecreated);
+        $this->assertEquals($timedeleted2, $mua1->timecreated);
 
         $this->assertEquals($user2->id, $mua2->userid);
         $this->assertEquals($messagedeletedid1, $mua2->messageid);
-        $this->assertEquals($timedeleted, $mua2->timecreated);
+        $this->assertEquals($timedeleted1, $mua2->timecreated);
     }
 
     /**
