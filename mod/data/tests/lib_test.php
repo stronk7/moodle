@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/mod/data/lib.php');
+require_once($CFG->dirroot . '/filter/activitynames/filter.php');
 
 /**
  * Unit tests for lib.php
@@ -52,6 +53,155 @@ class mod_data_lib_testcase extends advanced_testcase {
             $DB = $this->DB;
             $this->DB = null;
         }
+    }
+
+    /**
+     * Provide cases for test_data_filter_template()
+     */
+    public function data_filter_template_provider() {
+        return [
+            'Simple html-only template' => [
+                'template'  => '<p>This is a simple template without any placeholder or filtered content</p>',
+                'placeholders' => [],
+                'resource1' => '',
+                'resource2' => '',
+                'filtering' => false,
+                'pattern'   => preg_quote(
+                    '<p>This is a simple template without any placeholder or filtered content</p>', '~'),
+            ],
+            'Simple html-only template (filter on)' => [
+                'template'  => '<p>This is a simple template without any placeholder or filtered content</p>',
+                'placeholders' => [],
+                'resource1' => '',
+                'resource2' => '',
+                'filtering' => true,
+                'pattern'   => preg_quote(
+                    '<p>This is a simple template without any placeholder or filtered content</p>', '~'),
+            ],
+            'Placeholders are kept ok (filter on)' => [
+                'template' => '<p>A template having [[resource1]] and ##resource2## placeholders, but not linking</p>',
+                'placeholders' => ['[[resource1]]', '##resource2##'],
+                'resource1' => '',
+                'resource2' => '',
+                'filtering' => false,
+                'pattern'   => preg_quote(
+                    '<p>A template having [[resource1]] and ##resource2## placeholders, but not linking</p>', '~'),
+            ],
+            'Placeholders are kept ok (filter on)' => [
+                'template' => '<p>A template having [[resource1]] and ##resource2## placeholders, but not linking</p>',
+                'placeholders' => ['[[resource1]]', '##resource2##'],
+                'resource1' => '',
+                'resource2' => '',
+                'filtering' => true,
+                'pattern'   => preg_quote(
+                    '<p>A template having [[resource1]] and ##resource2## placeholders, but not linking</p>', '~'),
+            ],
+            'Matching content, non-matching placeholders (filter off)' => [
+                'template' => '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res1',
+                'resource2' => 'res2',
+                'filtering' => false,
+                'pattern'   => preg_quote(
+                    '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+            'Matching content, non-matching placeholders (filter on)' => [
+                'template' => '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res1',
+                'resource2' => 'res2',
+                'filtering' => true,
+                'pattern'   => preg_quote('<p>Trying <a class="autolink" title="res1" href="', '~') .
+                    preg_quote('https://www.example.com/moodle/mod/page/view.php?id=', '~') . '\d+' .
+                    preg_quote('">res1</a>, <a class="autolink" title="res2" href="', '~') .
+                    preg_quote('https://www.example.com/moodle/mod/page/view.php?id=', '~') . '\d+' .
+                    preg_quote('">res2</a> content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+            'Non-matching content, matching placeholders (filter off)' => [
+                'template' => '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res3',
+                'resource2' => 'res4',
+                'filtering' => false,
+                'pattern'   => preg_quote(
+                    '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+            'Non-matching content, matching placeholders (filter on)' => [
+                'template' => '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res3',
+                'resource2' => 'res4',
+                'filtering' => true,
+                'pattern'   => preg_quote(
+                    '<p>Trying res1, res2 content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+            'Matching content, matching placeholders (filter off)' => [
+                'template' => '<p>Trying res3, res4 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res3',
+                'resource2' => 'res4',
+                'filtering' => false,
+                'pattern'   => preg_quote(
+                    '<p>Trying res3, res4 content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+            'Matching content, matching placeholders (filter on)' => [
+                'template' => '<p>Trying res3, res4 content. Trying [[res3]], ##res4## placeholders</p>',
+                'placeholders' => ['[[res3]]', '##res4##'],
+                'resource1' => 'res3',
+                'resource2' => 'res4',
+                'filtering' => true,
+                'pattern'   => preg_quote('<p>Trying <a class="autolink" title="res3" href="', '~') .
+                    preg_quote('https://www.example.com/moodle/mod/page/view.php?id=', '~') . '\d+' .
+                    preg_quote('">res3</a>, <a class="autolink" title="res4" href="', '~') .
+                    preg_quote('https://www.example.com/moodle/mod/page/view.php?id=', '~') . '\d+' .
+                    preg_quote('">res4</a> content. Trying [[res3]], ##res4## placeholders</p>', '~'),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider data_filter_template_provider
+     * @covers ::data_filter_template
+     */
+    public function test_data_filter_template($template, $placeholders, $resource1, $resource2, $filtering, $pattern) {
+        global $CFG;
+        $this->resetAfterTest(true);
+
+        // Enable/disable activitynames filter globally.
+        if ($filtering) {
+            filter_set_global_state('activitynames', TEXTFILTER_ON);
+        } else {
+            filter_set_global_state('activitynames', TEXTFILTER_DISABLED);
+        }
+
+        // This is clearly imperfect, but the activitynames filter has some static
+        // caches that aren't reset ever. So we have to force such a reset here.
+        // TODO: Remove this line once MDL-66207 is implemented and all those static
+        // caches are properly cleaned between tests.
+        filter_activitynames::$activitylist = null;
+
+        // Create a test course.
+        $course = $this->getDataGenerator()->create_course();
+        $context = context_course::instance($course->id);
+
+        // Create a couple of resources to get (activitynames) filter in action.
+        if ($resource1) {
+            $page1 = $this->getDataGenerator()->create_module('page',
+                ['course' => $course->id, 'name' => $resource1]);
+        }
+        if ($resource2) {
+            $page2 = $this->getDataGenerator()->create_module('page',
+                ['course' => $course->id, 'name' => $resource2]);
+        }
+
+        // Results are immune to $CFG->forceclean, so we test with both.
+        $CFG->forceclean = false;
+        $result = data_filter_template($template, $placeholders, $context);
+        $this->assertRegExp('~' . $pattern . '~', $result);
+
+        $CFG->forceclean = true;
+        $result = data_filter_template($template, $placeholders, $context);
+        $this->assertRegExp('~' . $pattern . '~', $result);
     }
 
     /**

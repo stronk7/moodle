@@ -1603,21 +1603,23 @@ function data_print_template($template, $records, $data, $search='', $page=0, $r
  * @return string the template with filters applied
  */
 function data_filter_template($template, $patterns, $context) {
-    global $CFG;
 
-    if ($CFG->debugdeveloper) {
-        $alltags = implode(', ', $patterns);
+    // To avoid mod_data placeholders being processed by filters/clean... we are simply
+    // enclosing them between <nolink> and </nolink> tags. Some good implications about their use:
+    // 1) the placeholders won't be mofified by linking filters ever.
+    // 2) no extra processing is needed. filterlib handles them perfectly.
+    // 3) the <nolink> and </nolink> tags are automatically removed before output happens.
 
-        $alltagsfiltered = format_text($alltags, FORMAT_HTML, ['trusted' => true, 'noclean' => true]);
+    // Let's calculate the <nolink> placeholders.
+    $nolinkpatterns = array_map(function($pattern) {
+        return '<nolink>' . $pattern . '</nolink>';
+    }, $patterns);
 
-        foreach ($patterns as $pattern) {
-            if (strpos($alltagsfiltered, $pattern) === false) {
-                debugging('Collision between enabled filters and tag: ' . $pattern, DEBUG_DEVELOPER);
-            }
-        }
-    }
+    // Perform the switch to <nolink> placeholders.
+    $template = str_replace($patterns, $nolinkpatterns, $template);
 
-    return $filteredtemplate = format_text($template, FORMAT_HTML, ['trusted' => true, 'noclean' => true]);
+    // Return normal format_text() to process the template and apply filters.
+    return format_text($template, FORMAT_HTML, ['noclean' => true, 'context' => $context]);
 }
 
 /**
