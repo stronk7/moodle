@@ -289,7 +289,7 @@ class grade_report_overview extends grade_report {
                         'userid' => $this->user->id, 'group' => $this->gpr->groupid)), $coursename);
                 }
 
-                $data = array($courselink, grade_format_gradevalue($finalgrade, $courseitem, true));
+                $data = array($courselink, grade_format_gradevalue($finalgrade, $courseitem, $this->user->id, true));
 
                 if ($this->showrank['any']) {
                     if ($this->showrank[$course->id] && !is_null($finalgrade)) {

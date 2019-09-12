@@ -201,6 +201,15 @@ if (has_capability('moodle/grade:manage', $systemcontext)
     $letters = new admin_externalpage('letters', new lang_string('letters', 'grades'), $CFG->wwwroot.'/grade/edit/letter/index.php', 'moodle/grade:manageletters');
     $ADMIN->add('grades', $letters);
 
+    // Grade rule order
+    $temp = new admin_settingpage('graderule', new lang_string('graderule', 'grades'), 'moodle/grade:manage');
+    if ($ADMIN->fulltree) {
+        $temp->add(new admin_setting_configtext('graderule_sortorder', new lang_string('graderule_sortorder', 'grades'),
+            new lang_string('graderule_sortorder_help', 'grades'),
+            '0', PARAM_TEXT));
+    }
+    $ADMIN->add('grades', $temp);
+
     // The plugins must implement a settings.php file that adds their admin settings to the $settings object
 
     // Reports

@@ -249,10 +249,37 @@ if ($mform->is_cancelled()) {
         $grade_item->set_hidden($hidden, false);
     }
 
+    // MDL-60155: Process any rules for this grade category.
+    $rules = \core\grade\rule::load_for_grade_item($grade_item->id, $context);
+
+    if (!empty($rules)) {
+
+        foreach ($rules as $rule) {
+
+            $rule->process_form($data);
+            $rule->save($grade_item);
+
+            // Regrade if necessary.
+            if ($rule->needs_update()) {
+
+                $grade_item->force_regrading();
+            }
+        }
+    }
+
     $grade_item->set_locktime($locktime); // locktime first - it might be removed when unlocking
     $grade_item->set_locked($locked, false, true);
 
     $grade_item->update(); // We don't need to insert it, it's already created when the category is created
+
+    // MDL-60155: Process recursive rules.
+    if (!empty($rules)) {
+
+        foreach ($rules as $rule) {
+
+            $rule->recurse($grade_item);
+        }
+    }
 
     // set parent if needed
     if (isset($data->parentcategory)) {

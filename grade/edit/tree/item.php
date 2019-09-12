@@ -185,6 +185,24 @@ if ($mform->is_cancelled()) {
         }
     }
 
+    // MDL-60155: Process hooks for the grade item.
+    $rules = \core\grade\rule::load_for_grade_item($grade_item->id, $context);
+
+    if (!empty($rules)) {
+
+        foreach ($rules as $rule) {
+
+            $rule->process_form($data);
+            $rule->save($grade_item);
+
+            // Regrade if necessary.
+            if ($rule->needs_update()) {
+
+                $grade_item->force_regrading();
+            }
+        }
+    }
+
     // update hiding flag
     if ($hiddenuntil) {
         $grade_item->set_hidden($hiddenuntil, false);
@@ -194,6 +212,15 @@ if ($mform->is_cancelled()) {
 
     $grade_item->set_locktime($locktime); // locktime first - it might be removed when unlocking
     $grade_item->set_locked($locked, false, true);
+
+    // MDL-60155: Process recursive rules.
+    if (!empty($rules)) {
+
+        foreach ($rules as $rule) {
+
+            $rule->recurse($grade_item);
+        }
+    }
 
     redirect($returnurl);
 }

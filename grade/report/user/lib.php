@@ -573,12 +573,14 @@ class grade_report_user extends grade_report {
                             $gradeitemdata['graderaw'] = $gradeval;
                             $data['grade']['content'] = grade_format_gradevalue($gradeval,
                                                                                 $grade_grade->grade_item,
+                                                                                $grade_grade->userid,
                                                                                 true);
                         }
                     } else {
                         $data['grade']['class'] = $class;
                         $data['grade']['content'] = grade_format_gradevalue($gradeval,
                                                                             $grade_grade->grade_item,
+                                                                            $grade_grade->userid,
                                                                             true);
                         $gradeitemdata['graderaw'] = $gradeval;
                     }
@@ -606,11 +608,11 @@ class grade_report_user extends grade_report {
                         $data['percentage']['class'] = $class.' dimmed_text';
                         $data['percentage']['content'] = '-';
                         if ($this->canviewhidden) {
-                            $data['percentage']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, true, GRADE_DISPLAY_TYPE_PERCENTAGE);
+                            $data['percentage']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, $grade_grade->userid, true, GRADE_DISPLAY_TYPE_PERCENTAGE);
                         }
                     } else {
                         $data['percentage']['class'] = $class;
-                        $data['percentage']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, true, GRADE_DISPLAY_TYPE_PERCENTAGE);
+                        $data['percentage']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, $grade_grade->userid, true, GRADE_DISPLAY_TYPE_PERCENTAGE);
                     }
                     $data['percentage']['headers'] = "$header_cat $header_row percentage";
                     $gradeitemdata['percentageformatted'] = $data['percentage']['content'];
@@ -626,11 +628,11 @@ class grade_report_user extends grade_report {
                         if (!$this->canviewhidden) {
                             $data['lettergrade']['content'] = '-';
                         } else {
-                            $data['lettergrade']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, true, GRADE_DISPLAY_TYPE_LETTER);
+                            $data['lettergrade']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, $grade_grade->userid, true, GRADE_DISPLAY_TYPE_LETTER);
                         }
                     } else {
                         $data['lettergrade']['class'] = $class;
-                        $data['lettergrade']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, true, GRADE_DISPLAY_TYPE_LETTER);
+                        $data['lettergrade']['content'] = grade_format_gradevalue($gradeval, $grade_grade->grade_item, $grade_grade->userid, true, GRADE_DISPLAY_TYPE_LETTER);
                     }
                     $data['lettergrade']['headers'] = "$header_cat $header_row lettergrade";
                     $gradeitemdata['lettergradeformatted'] = $data['lettergrade']['content'];
@@ -1074,7 +1076,7 @@ class grade_report_user extends grade_report {
                 } else {
                     $sum = $sum_array[$item->id];
                     $avgradeval = $sum/$mean_count;
-                    $gradehtml = grade_format_gradevalue($avgradeval, $item, true, $displaytype, $decimalpoints);
+                    $gradehtml = grade_format_gradevalue($avgradeval, $item, null, true, $displaytype, $decimalpoints);
 
                     $numberofgrades = '';
                     if ($shownumberofgrades) {

@@ -147,6 +147,7 @@ class restore_gradebook_structure_step extends restore_structure_step {
         $paths[] = new restore_path_element('attributes', '/gradebook/attributes');
         $paths[] = new restore_path_element('grade_category', '/gradebook/grade_categories/grade_category');
         $paths[] = new restore_path_element('grade_item', '/gradebook/grade_items/grade_item');
+        $paths[] = new restore_path_element('grade_rule', '/gradebook/grade_rules/grade_rule');
         if ($userinfo) {
             $paths[] = new restore_path_element('grade_grade', '/gradebook/grade_items/grade_item/grade_grades/grade_grade');
         }
@@ -250,6 +251,31 @@ class restore_gradebook_structure_step extends restore_structure_step {
             core\event\grade_item_created::create_from_grade_item($gradeitem)->trigger();
         }
         $this->set_mapping('grade_item', $oldid, $newitemid);
+    }
+
+    // MDL-60155: Restore the grade rule plugins mapping.
+    protected function process_grade_rule($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+        $data->gradeitem = $this->get_mappingid('grade_item', $data->gradeitem, null);
+
+        // Get the installed rules.
+        $installedrules = \core\grade\rule::get_installed_rules();
+
+        // Only restore grading rules if there are plugins installed.
+        if (!empty($installedrules)) {
+
+            // Only restore the grading rules if the specific plugin is installed.
+            if (array_key_exists($data->plugin, $installedrules)) {
+
+                // Set this to -1 so that we can process it after.
+                $data->pluginid = -1;
+                $newitemid = $DB->insert_record('grading_rules', $data);
+                $this->set_mapping('grade_rule', $oldid, $newitemid);
+            }
+        }
     }
 
     protected function process_grade_grade($data) {

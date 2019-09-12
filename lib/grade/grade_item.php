@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\grade\rule\rule_interface;
+
 defined('MOODLE_INTERNAL') || die();
 require_once('grade_object.php');
 
@@ -258,6 +260,12 @@ class grade_item extends grade_object {
     public $dependson_cache = null;
 
     /**
+     * Rules for this grade item.
+     * @var rule_interface[] $rules
+     */
+    public $rules = null;
+
+    /**
      * Constructor. Optionally (and by default) attempts to fetch corresponding row from the database
      *
      * @param array $params An array with required parameters for this grade object.
@@ -269,6 +277,9 @@ class grade_item extends grade_object {
         // Set grademax from $CFG->gradepointdefault .
         self::set_properties($this, array('grademax' => $CFG->gradepointdefault));
         parent::__construct($params, $fetch);
+        if (!empty($this->id)) {
+            $this->rules = self::get_active_grading_rules($this->id);
+        }
     }
 
     /**
@@ -358,7 +369,11 @@ class grade_item extends grade_object {
      * @return grade_item|bool Returns a grade_item instance or false if none found
      */
     public static function fetch($params) {
-        return grade_object::fetch_helper('grade_items', 'grade_item', $params);
+        $gradeitem = grade_object::fetch_helper('grade_items', 'grade_item', $params);
+        if (!empty($gradeitem)) {
+            $gradeitem->rules = self::get_active_grading_rules($gradeitem->id);
+        }
+        return $gradeitem;
     }
 
     /**
@@ -397,7 +412,16 @@ class grade_item extends grade_object {
      * @return array array of grade_item instances or false if none found.
      */
     public static function fetch_all($params) {
-        return grade_object::fetch_all_helper('grade_items', 'grade_item', $params);
+        $gradeitems = grade_object::fetch_all_helper('grade_items', 'grade_item', $params);
+
+        if (empty($gradeitems)) {
+            return false;
+        }
+
+        foreach ($gradeitems as $gradeitem) {
+            $gradeitem->rules = self::get_active_grading_rules($gradeitem->id);
+        }
+        return $gradeitems;
     }
 
     /**
@@ -408,6 +432,19 @@ class grade_item extends grade_object {
      */
     public function delete($source=null) {
         $this->delete_all_grades($source);
+
+        // MDL-60155: Process installed rules here.
+        $installedrules = \core\grade\rule::get_installed_rules();
+
+        if (!empty($installedrules)) {
+
+            foreach ($installedrules as $installedrule) {
+
+                $rule = \core\grade\rule\factory::create($installedrule, -1);
+                $rule->delete($this);
+            }
+        }
+
         return parent::delete($source);
     }
 
@@ -783,7 +820,7 @@ class grade_item extends grade_object {
                     continue;
                 }
 
-                $grade->finalgrade = $this->adjust_raw_grade($grade->rawgrade, $grade->rawgrademin, $grade->rawgrademax);
+                $grade->finalgrade = $this->adjust_raw_grade($grade->rawgrade, $grade->rawgrademin, $grade->rawgrademax, $userid);
 
                 if (grade_floats_different($grade_record->finalgrade, $grade->finalgrade)) {
                     $success = $grade->update('system');
@@ -810,9 +847,10 @@ class grade_item extends grade_object {
      * @param float $rawgrade The raw grade value
      * @param float $rawmin original rawmin
      * @param float $rawmax original rawmax
+     * @param int   $userid
      * @return mixed
      */
-    public function adjust_raw_grade($rawgrade, $rawmin, $rawmax) {
+    public function adjust_raw_grade($rawgrade, $rawmin, $rawmax, $userid=null) {
         if (is_null($rawgrade)) {
             return null;
         }
@@ -838,6 +876,23 @@ class grade_item extends grade_object {
             $rawgrade *= $this->multfactor;
             $rawgrade += $this->plusfactor;
 
+            // MDL-60155: Pass the grade item and the grade value through the installed
+            // grading rule plugins here.
+            $rules = self::get_rules($this->courseid, $this->id);
+
+            if (!empty($rules)) {
+
+                foreach ($rules as $rule) {
+
+                    if ($rule->enabled()) {
+
+                        if (!is_null($userid)) {
+
+                            $rawgrade = $rule->final_grade_modifier($this, $userid, $rawgrade);
+                        }
+                    }
+                }
+            }
             return $this->bounded_grade($rawgrade);
 
         } else if ($this->gradetype == GRADE_TYPE_SCALE) { // Dealing with a scale value
@@ -861,8 +916,24 @@ class grade_item extends grade_object {
                 $rawgrade = grade_grade::standardise_score($rawgrade, $rawmin, $rawmax, $this->grademin, $this->grademax);
             }
 
-            return $this->bounded_grade($rawgrade);
+            // MDL-60155: Pass the grade item and the grade value through the installed
+            // grading rule plugins here.
+            $rules = self::get_rules($this->courseid, $this->id);
 
+            if (!empty($rules)) {
+
+                foreach ($rules as $rule) {
+
+                    if ($rule->enabled()) {
+
+                        if (!is_null($userid)) {
+
+                            $rawgrade = $rule->final_grade_modifier($this, $userid, $rawgrade);
+                        }
+                    }
+                }
+            }
+            return $this->bounded_grade($rawgrade);
 
         } else if ($this->gradetype == GRADE_TYPE_TEXT or $this->gradetype == GRADE_TYPE_NONE) { // no value
             // somebody changed the grading type when grades already existed
@@ -1788,6 +1859,24 @@ class grade_item extends grade_object {
                 $grade->overridden = time();
             }
 
+            // MDL-60155: Pass the grade item and the grade value through the installed
+            // grading rule plugins here.
+            $rules = self::get_rules($this->courseid, $this->id);
+
+            if (!empty($rules)) {
+
+                foreach ($rules as $rule) {
+
+                    if ($rule->enabled()) {
+
+                        if (!is_null($userid)) {
+
+                            $finalgrade = $rule->final_grade_modifier($this, $userid, $finalgrade);
+                        }
+                    }
+                }
+            }
+
             $grade->finalgrade = $this->bounded_grade($finalgrade);
         }
 
@@ -1964,7 +2053,7 @@ class grade_item extends grade_object {
 
         // update final grade if possible
         if (!$grade->is_locked() and !$grade->is_overridden()) {
-            $grade->finalgrade = $this->adjust_raw_grade($grade->rawgrade, $grade->rawgrademin, $grade->rawgrademax);
+            $grade->finalgrade = $this->adjust_raw_grade($grade->rawgrade, $grade->rawgrademin, $grade->rawgrademax, $grade->userid);
         }
 
         // TODO: hack alert - create new fields for these in 2.0
@@ -2447,8 +2536,8 @@ class grade_item extends grade_object {
             $grademax = "100 %";
 
         } else {
-            $grademin = grade_format_gradevalue($this->grademin, $this, true, $displaytype, $decimalpoints);
-            $grademax = grade_format_gradevalue($this->grademax, $this, true, $displaytype, $decimalpoints);
+            $grademin = grade_format_gradevalue($this->grademin, $this, null, true, $displaytype, $decimalpoints);
+            $grademax = grade_format_gradevalue($this->grademax, $this, null, true, $displaytype, $decimalpoints);
         }
 
         return $grademin.'&ndash;'. $grademax;
@@ -2528,5 +2617,114 @@ class grade_item extends grade_object {
             $context = \context_course::instance($this->courseid);
         }
         return $context;
+    }
+
+    /**
+     * Helper function to get grading rules.
+     *
+     * @param int $id This is the ID of the grade item
+     *
+     * @return rule_interface[]
+     */
+    public static function get_rules($id) {
+        // Return an empty array if there are no grade rule plugin installed.
+        if (count(core\grade\rule::get_installed_rules()) === 0) {
+            return [];
+        }
+
+        // The context here is used to get the sortorder config,
+        // which is at the site level.
+        $context = context_system::instance();
+        return core\grade\rule::load_for_grade_item($id, $context);
+    }
+
+    /**
+     * Helper function to get active rules for this grade item
+     *
+     * @param int $id This is the ID of the grade item
+     *
+     * @return array
+     */
+    public static function get_active_grading_rules($id) {
+
+        $rules = [];
+
+        $graderules = self::get_rules($id);
+
+        if (!empty($graderules)) {
+
+            foreach ($graderules as $graderule) {
+
+                if ($graderule->enabled() && $graderule->owned_by($id)) {
+
+                    $rules[] = $graderule->get_type();
+                }
+            }
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Helper function to get the grade symbol for this grade.
+     *
+     * @param string $value
+     * @param int    $userid
+     *
+     * @return string
+     */
+    public function get_grade_symbol($value, $userid) {
+
+        $standardsymbol = grade_format_gradevalue_letter($value, $this);
+        $gradesymbol = $standardsymbol;
+
+        if (is_null($userid)) {
+
+            return $standardsymbol;
+        }
+
+        $rules = self::get_rules($this->id);
+
+        if (!empty($rules)) {
+
+            foreach ($rules as $rule) {
+
+                if ($rule->enabled()) {
+
+                    $gradesymbol = $rule->symbol_modifier($this, $value, $userid, $standardsymbol);
+                }
+            }
+        }
+
+        return $gradesymbol;
+    }
+
+    /**
+     * Helper function to get the statuses associated with this grade item.
+     *
+     * @param int $userid
+     *
+     * @return array
+     */
+    public function get_statuses($userid) {
+
+        $statuses = [];
+
+        $graderules = self::get_rules($this->id);
+
+        if (!empty($graderules)) {
+
+            foreach ($graderules as $rule) {
+
+                $status = $rule->get_status_message($this, $userid);
+
+                if (!is_null($status)) {
+
+                    $statuses[] = $status;
+                }
+            }
+        }
+
+        return $statuses;
     }
 }

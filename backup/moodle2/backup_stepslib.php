@@ -1001,6 +1001,10 @@ class backup_gradebook_structure_step extends backup_structure_step {
             'sortorder', 'display', 'decimals', 'hidden', 'locked', 'locktime',
             'needsupdate', 'timecreated', 'timemodified'));
 
+        // MDL-60155: Add grade rule plugins to backup
+        $graderules = new backup_nested_element('grade_rules');
+        $graderule = new backup_nested_element('grade_rule', ['id'], ['gradeitem', 'plugin']);
+
         $grade_grades = new backup_nested_element('grade_grades');
         $grade_grade = new backup_nested_element('grade_grade', array('id'), array(
             'userid', 'rawgrade', 'rawgrademax', 'rawgrademin',
@@ -1037,6 +1041,11 @@ class backup_gradebook_structure_step extends backup_structure_step {
         $gradebook->add_child($grade_items);
         $grade_items->add_child($grade_item);
         $grade_item->add_child($grade_grades);
+
+        // MDL-60155: Add grade rule plugins to backup
+        $gradebook->add_child($graderules);
+        $graderules->add_child($graderule);
+
         $grade_grades->add_child($grade_grade);
 
         $gradebook->add_child($letters);
@@ -1061,6 +1070,33 @@ class backup_gradebook_structure_step extends backup_structure_step {
                            AND (itemtype='manual' OR itemtype='course' OR itemtype='category')";
         $grade_items_params = array('courseid'=>backup::VAR_COURSEID);
         $grade_item->set_source_sql($grade_items_sql, $grade_items_params);
+
+        // MDL-60155: Add grade rule plugins to backup
+        $graderules = array();
+        $graderulessql = "SELECT gr.*
+                            FROM {grading_rules} gr
+                            JOIN {grade_items} gi ON gi.id = gr.gradeitem
+                           WHERE gi.courseid = :courseid";
+        $graderulesparams = array('courseid' => $this->get_courseid());
+        $rs = $DB->get_recordset_sql($graderulessql, $graderulesparams);
+
+        if ($rs->valid()) {
+
+            foreach ($rs as $record) {
+
+                $gradeitem = \grade_item::fetch(['id' => $record->gradeitem]);
+
+                if (property_exists($gradeitem, 'rules') && !empty($gradeitem->rules)) {
+
+                    if (in_array($record->plugin, $gradeitem->rules)) {
+                        $graderules[$record->id] = $record;
+                    }
+                }
+            }
+        }
+        $rs->close();
+
+        $graderule->set_source_array($graderules);
 
         if ($userinfo) {
             $grade_grade->set_source_table('grade_grades', array('itemid' => backup::VAR_PARENTID));
