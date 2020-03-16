@@ -182,6 +182,7 @@ $string['course:renameroles'] = 'Rename roles';
 $string['course:recommendactivity'] = 'Recommend activities to the activity chooser';
 $string['course:request'] = 'Request new courses';
 $string['course:reset'] = 'Reset course';
+$string['course:resetuser'] = 'Reset user in course';
 $string['course:reviewotherusers'] = 'Review other users';
 $string['course:sectionvisibility'] = 'Control section visibility';
 $string['course:setcurrentsection'] = 'Set current section';

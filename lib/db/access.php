@@ -1155,6 +1155,18 @@ $capabilities = array(
         )
     ),
 
+    'moodle/course:resetuser' => array(
+
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ),
+        'clonepermissionsfrom' => 'moodle/course:reset'
+    ),
+
     'moodle/course:viewsuspendedusers' => array(
 
         'captype' => 'read',
