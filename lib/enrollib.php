@@ -93,6 +93,9 @@ define('ENROL_ACTION_EDIT', 'editenrolment');
 /** Unenrol action. */
 define('ENROL_ACTION_UNENROL', 'unenrol');
 
+/** Reset user action */
+define('COURSE_ACTION_RESETUSER', 'resetuser');
+
 /**
  * Returns instances of enrol plugins
  * @param bool $enabled return enabled only
@@ -2755,6 +2758,27 @@ abstract class enrol_plugin {
             ];
             $actions[] = new user_enrolment_action($icon, $title, $url, $actionparams);
         }
+
+        // Reset action.
+        if (enrol_is_enabled($instance->enrol) &&
+                $this->allow_unenrol_user($instance, $ue) &&
+                has_capability("enrol/{$instance->enrol}:unenrol", $context) &&
+                has_capability('moodle/course:resetuser', $context)) {
+            $title = get_string('resetuser', 'course');
+            $icon = new pix_icon('s/dead', $title);
+            // Prepare context and user here for further verifications.
+            $resetparams = $params;
+            $resetparams['contextid'] = $context->id; // For some reason this is missing in other actions. Better I add it here.
+            $resetparams['userid'] = $ue->userid;
+            $url = new moodle_url('/course/resetuser.php', $resetparams);
+            $actionparams = [
+                'class' => 'resetuserlink',
+                'rel' => $ue->id,
+                'data-action' => COURSE_ACTION_RESETUSER
+            ];
+            $actions[] = new user_enrolment_action($icon, $title, $url, $actionparams);
+        }
+
         return $actions;
     }
 

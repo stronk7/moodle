@@ -67,6 +67,7 @@ $string['privacy:metadata:completionsummary'] = 'The course contains completion 
 $string['privacy:metadata:favouritessummary'] = 'The course contains information relating to the course being starred by the user.';
 $string['recommend'] = 'Recommend';
 $string['recommendcheckbox'] = 'Recommend activity: {$a}';
+$string['resetuser'] = 'Reset user from course';
 $string['studentsatriskincourse'] = 'Students at risk in {$a} course';
 $string['studentsatriskinfomessage'] = 'Hi {$a->userfirstname},
 <p>Students in the {$a->coursename} course have been identified as being at risk.</p>';
