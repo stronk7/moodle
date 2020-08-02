@@ -40,7 +40,7 @@ require_once($CFG->dirroot . '/backup/util/factories/backup_factory.class.php');
  */
 class backup_factories_testcase extends advanced_testcase {
 
-    function setUp() {
+    function setUp(): void {
         global $CFG;
         parent::setUp();
 
