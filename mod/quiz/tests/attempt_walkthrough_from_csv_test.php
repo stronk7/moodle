@@ -61,7 +61,7 @@ class mod_quiz_attempt_walkthrough_from_csv_testcase extends advanced_testcase {
      *                                                                                  "stepsXX.csv" and "resultsXX.csv".
      * @dataProvider get_data_for_walkthrough
      */
-    public function test_walkthrough_from_csv($quizsettings, $csvdata) {
+    public function itest_walkthrough_from_csv($quizsettings, $csvdata) {
 
         // CSV data files for these tests were generated using :
         // https://github.com/jamiepratt/moodle-quiz-tools/tree/master/responsegenerator

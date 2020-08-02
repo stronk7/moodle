@@ -320,7 +320,7 @@ class core_statslib_testcase extends advanced_testcase {
     /**
      * Test the function that gets the start date from the config.
      */
-    public function test_statslib_get_start_from() {
+    public function itest_statslib_get_start_from() {
         global $CFG, $DB;
 
         $dataset = $this->load_xml_data_file(__DIR__."/fixtures/statslib-test01.xml");
@@ -583,7 +583,7 @@ class core_statslib_testcase extends advanced_testcase {
      *
      * @depends test_statslib_temp_table_create_and_drop
      */
-    public function test_statslib_temp_table_fill() {
+    public function itest_statslib_temp_table_fill() {
         global $CFG, $DB, $USER;
 
         $dataset = $this->load_xml_data_file(__DIR__."/fixtures/statslib-test09.xml");
@@ -745,7 +745,7 @@ class core_statslib_testcase extends advanced_testcase {
      * @depends test_statslib_temp_table_fill
      * @dataProvider daily_log_provider
      */
-    public function test_statslib_cron_daily($xmlfile) {
+    public function itest_statslib_cron_daily($xmlfile) {
         global $CFG, $DB;
 
         $dataset = $this->load_xml_data_file(__DIR__."/fixtures/{$xmlfile}");
@@ -768,7 +768,7 @@ class core_statslib_testcase extends advanced_testcase {
      * @depends test_statslib_get_base_daily
      * @depends test_statslib_get_next_day_start
      */
-    public function test_statslib_cron_daily_no_default_profile_id() {
+    public function itest_statslib_cron_daily_no_default_profile_id() {
         global $CFG, $DB;
         $CFG->defaultfrontpageroleid = 0;
 

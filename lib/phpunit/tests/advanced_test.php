@@ -318,7 +318,7 @@ class core_phpunit_advanced_testcase extends advanced_testcase {
         $this->assertFalse($DB->get_record('user', array('id'=>9999)));
     }
 
-    public function test_load_dataset() {
+    public function itest_load_dataset() {
         global $DB;
 
         $this->resetAfterTest();
