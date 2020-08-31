@@ -149,6 +149,6 @@ class tool_usertours_privacy_testcase extends \core_privacy\tests\provider_testc
         $this->assertCount(1, (array) $prefs);
 
         // The preference should be related to the first tour.
-        $this->assertContains($tour1->get_name(), reset($prefs)->description);
+        $this->assertStringContainsString($tour1->get_name(), reset($prefs)->description);
     }
 }

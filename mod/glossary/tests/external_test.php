@@ -1178,7 +1178,7 @@ class mod_glossary_external_testcase extends externallib_advanced_testcase {
         $aliases = $DB->get_records('glossary_alias', array('entryid' => $return['entryid']));
         $this->assertCount(3, $aliases);
         foreach ($aliases as $alias) {
-            $this->assertContains($alias->alias, $paramaliases);
+            $this->assertStringContainsString($alias->alias, $paramaliases);
         }
     }
 
@@ -1208,7 +1208,7 @@ class mod_glossary_external_testcase extends externallib_advanced_testcase {
         $categories = $DB->get_records('glossary_entries_categories', array('entryid' => $return['entryid']));
         $this->assertCount(2, $categories);
         foreach ($categories as $category) {
-            $this->assertContains($category->categoryid, $paramcategories);
+            $this->assertStringContainsString($category->categoryid, $paramcategories);
         }
     }
 
