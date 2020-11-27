@@ -13,21 +13,27 @@ env:
 
 jobs:
   Grunt:
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
 
     steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - name: Checking out code
         uses: actions/checkout@v2
 
       - name: Configuring node & npm
-        shell: bash -l {0}
-        run: nvm install
+        uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: lts/*
 
       - name: Installing node stuff
         run: npm install
 
       - name: Running grunt
-        run: npx grunt
+        run: npx grunt --force
 
       - name: Looking for uncommitted changes
         # Add all files to the git index and then run diff --cached to see all changes.
@@ -40,29 +46,30 @@ jobs:
 
   PHPUnit:
     runs-on: ${{ matrix.os }}
-    services:
-      exttests:
-        image: moodlehq/moodle-exttests
-        ports:
-          - 8080:80
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-18.04
+          - os: windows-latest
             php: 7.3
             extensions:
             db: mysqli
-          - os: ubuntu-18.04
+          - os: windows-latest
             php: 8.0
             db: pgsql
             extensions: xmlrpc-beta
 
     steps:
+      - name: Setting up moodle-exttests service
+        run: |
+          git clone https://github.com/moodlehq/moodle-exttests.git
+          php -S localhost:8080 -t moodle-exttests
+
+      - name: Setting up redis service
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: '6.x'
+
       - name: Setting up DB mysql
         if: ${{ matrix.db == 'mysqli' }}
         uses: johanmeiring/mysql-action@tmpfs-patch
