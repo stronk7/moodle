@@ -129,7 +129,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('is_enabled', 'get_data', 'internal_get_state', 'internal_set_data',
+        $mockbuilder->onlyMethods(array('is_enabled', 'get_data', 'internal_get_state', 'internal_set_data',
                                        'user_can_override_completion'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $cm = (object)array('id'=>13, 'course'=>42);
@@ -353,7 +353,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('internal_get_grade_state'));
+        $mockbuilder->onlyMethods(array('internal_get_grade_state'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $c = $mockbuilder->getMock();
 
@@ -390,7 +390,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('is_enabled', 'get_data', 'internal_set_data', 'update_state'));
+        $mockbuilder->onlyMethods(array('is_enabled', 'get_data', 'internal_set_data', 'update_state'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $cm = (object)array('id'=>13, 'course'=>42);
 
@@ -479,7 +479,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('delete_all_state', 'get_tracked_users', 'update_state'));
+        $mockbuilder->onlyMethods(array('delete_all_state', 'get_tracked_users', 'update_state'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $c = $mockbuilder->getMock();
 
@@ -674,7 +674,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('get_tracked_users'));
+        $mockbuilder->onlyMethods(array('get_tracked_users'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $c = $mockbuilder->getMock();
 
@@ -708,7 +708,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('get_tracked_users'));
+        $mockbuilder->onlyMethods(array('get_tracked_users'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
         $c = $mockbuilder->getMock();
 
@@ -762,7 +762,7 @@ class core_completionlib_testcase extends advanced_testcase {
         $this->mock_setup();
 
         $mockbuilder = $this->getMockBuilder('completion_info');
-        $mockbuilder->setMethods(array('is_enabled', 'update_state'));
+        $mockbuilder->onlyMethods(array('is_enabled', 'update_state'));
         $mockbuilder->setConstructorArgs(array((object)array('id' => 42)));
 
         $cm = (object)array('course'=>42, 'id'=>13, 'completion'=>0, 'completiongradeitemnumber'=>null);
