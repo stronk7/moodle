@@ -35,3 +35,5 @@ $version  = 2020061506.02;              // 20200615      = branching date YYYYMM
 $release  = '3.9.6+ (Build: 20210413)'; // Human-friendly version name
 $branch   = '39';                       // This version's branch.
 $maturity = MATURITY_STABLE;             // This version's maturity level.
+
+// Comment for testing MDL-71154.
