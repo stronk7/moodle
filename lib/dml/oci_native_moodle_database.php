@@ -303,14 +303,21 @@ class oci_native_moodle_database extends moodle_database {
      * @return string sql
      */
     protected function fix_table_names($sql) {
-        if (preg_match_all('/\{([a-z][a-z0-9_]*)\}/', $sql, $matches)) {
-            foreach($matches[0] as $key=>$match) {
+        if (preg_match_all('/\{([a-zA-Z][a-zA-Z0-9_]*)\}/', $sql, $matches)) {
+            foreach ($matches[0] as $key => $match) {
                 $name = $matches[1][$key];
-                if ($this->temptables && $this->temptables->is_temptable($name)) {
-                    $sql = str_replace($match, $this->temptables->get_correct_name($name), $sql);
-                } else {
-                    $sql = str_replace($match, $this->prefix.$name, $sql);
+                $newname = $this->prefix . $name;
+                // If the table is temp one, $newname is different.
+                // Look @ temp tables, it's always lower case there.
+                if ($this->temptables && $this->temptables->is_temptable(strtolower($name))) {
+                    $newname = $this->temptables->get_correct_name(strtolower($name));
                 }
+                // If all chars in table $name were upper case, let's make the $newname chars upper too.
+                if (strtoupper($name) === $name) {
+                    $newname = strtoupper($newname);
+                }
+                // Apply the replacement in the SQL.
+                $sql = str_replace($match, $newname, $sql);
             }
         }
         return $sql;
@@ -496,13 +503,13 @@ class oci_native_moodle_database extends moodle_database {
         // We give precedence to CHAR_LENGTH for VARCHAR2 columns over WIDTH because the former is always
         // BYTE based and, for cross-db operations, we want CHAR based results. See MDL-29415
         // Instead of guessing sequence based exclusively on name, check tables against user_triggers to
-        // ensure the table has a 'before each row' trigger to assume 'id' is auto_increment. MDL-32365
+        // ensure the table has a 'before each row' trigger to assume 'id' is auto_increment. MDL-32365.
         $sql = "SELECT CNAME, COLTYPE, nvl(CHAR_LENGTH, WIDTH) AS WIDTH, SCALE, PRECISION, NULLS, DEFAULTVAL,
                   DECODE(NVL(TRIGGER_NAME, '0'), '0', '0', '1') HASTRIGGER
                   FROM COL c
              LEFT JOIN USER_TAB_COLUMNS u ON (u.TABLE_NAME = c.TNAME AND u.COLUMN_NAME = c.CNAME AND u.DATA_TYPE = 'VARCHAR2')
              LEFT JOIN USER_TRIGGERS t ON (t.TABLE_NAME = c.TNAME AND TRIGGER_TYPE = 'BEFORE EACH ROW' AND c.CNAME = 'ID')
-                 WHERE TNAME = UPPER('{" . $table . "}')
+                 WHERE TNAME = '{" . strtoupper($table) . "}'
               ORDER BY COLNO";
 
         list($sql, $params, $type) = $this->fix_sql_params($sql, null);
