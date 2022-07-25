@@ -64,6 +64,9 @@ define('TEST_EXTERNAL_FILES_HTTPS_URL', 'http://localhost:8080');
 define('TEST_SESSION_REDIS_HOST', 'localhost');
 define('TEST_CACHESTORE_REDIS_TESTSERVERS', 'localhost');
 
+$CFG->pathtosassc = getenv('pathtosassc') ?? '';
+define('PHPUNIT_PATH_TO_SASSC', $CFG->pathtosassc);
+
 // TODO: add others (solr, mongodb, memcached, ldap...).
 
 // Too much for now: define('PHPUNIT_LONGTEST', true); // Only leaves a few tests out and they are run later by CI.
