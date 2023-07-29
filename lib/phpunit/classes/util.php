@@ -664,9 +664,10 @@ class phpunit_util extends testing_util {
                 '<const name="PHPUNIT_SEQUENCE_START" value="' . $sequencestart . '"/>',
                 $fcontents);
 
-            // fix link to schema
+            // Fix link to schema, bootstrap and cache directory.
             $level = substr_count(str_replace('\\', '/', $cpath), '/') - substr_count(str_replace('\\', '/', $CFG->dirroot), '/');
             $fcontents = str_replace('lib/phpunit/', str_repeat('../', $level).'lib/phpunit/', $fcontents);
+            $fcontents = str_replace('.phpunit.cache', str_repeat('../', $level) . '.phpunit.cache', $fcontents);
 
             // Write the file
             $result = false;
