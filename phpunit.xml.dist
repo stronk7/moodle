@@ -3,19 +3,20 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="lib/phpunit/phpunit.xsd"
     bootstrap="lib/phpunit/bootstrap.php"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     processIsolation="false"
     backupGlobals="false"
-    backupStaticAttributes="false"
+    backupStaticProperties="false"
     cacheResult="false"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    beStrictAboutTestsThatDoNotTestAnything="false"
+    cacheDirectory=".phpunit.cache"
+    failOnNotice="true"
+    failOnWarning="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    beStrictAboutChangesToGlobalState="true"
     beStrictAboutOutputDuringTests="true"
+    beStrictAboutTestsThatDoNotTestAnything="false"
     >
 
   <php>
@@ -228,8 +229,8 @@
 <!--@plugin_suites_end@-->
   </testsuites>
 
-  <coverage>
+  <source>
 <!--@coveragelist@-->
-  </coverage>
+  </source>
 
 </phpunit>
