@@ -861,11 +861,17 @@ class base_test extends \advanced_testcase {
         // all that was done is to move the annotation (deprecated) to
         // explicit expectation. Still try commenting it out and you'll see
         // the notice.
-        if (PHP_VERSION_ID >= 80000) {
-            $this->expectWarning();
-        } else {
-            $this->expectNotice();
-        }
+
+        // PHPUnit 10 compatible way to test deprecations, errors, notices and warnings.
+        set_error_handler(
+            static function ($errno, $errstr) {
+                restore_error_handler();
+                throw new \Exception($errstr, $errno);
+            },
+            E_WARNING
+        );
+        $this->expectExceptionMessage('Attempt to read property "instanceid" on bool');
+
         $event = \core_tests\event\context_used_in_event::create(array('other' => array('sample' => 1, 'xx' => 10)));
         $this->assertEventContextNotUsed($event);
 
