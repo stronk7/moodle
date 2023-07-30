@@ -68,7 +68,7 @@ class googledocs_shared_drives_content_test extends \googledocs_content_testcase
      *
      * @return array
      */
-    public function get_content_nodes_provider(): array {
+    public static function get_content_nodes_provider(): array {
 
         $rootid = \repository_googledocs::REPOSITORY_ROOT_ID;
         $shareddrivesid = \repository_googledocs::SHARED_DRIVES_ROOT_ID;

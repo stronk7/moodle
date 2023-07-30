@@ -50,7 +50,7 @@ class indicator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function validate_calculated_value() {
+    public static function validate_calculated_value() {
         return [
             'max' => ['test_indicator_max', [1]],
             'min' => ['test_indicator_min', [-1]],
@@ -83,7 +83,7 @@ class indicator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function validate_calculated_value_exceptions() {
+    public static function validate_calculated_value_exceptions() {
         return [
             'max' => ['test_indicator_max', 2],
             'min' => ['test_indicator_min', -2],

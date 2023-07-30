@@ -788,7 +788,7 @@ class sync_members_test extends \lti_advantage_testcase {
      *
      * @return array[] the array of test data.
      */
-    public function member_sync_data_provider(): array {
+    public static function member_sync_data_provider(): array {
         global $CFG;
         require_once($CFG->dirroot . '/auth/lti/auth.php');
         return [

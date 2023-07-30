@@ -38,7 +38,7 @@ class httpsreplace_test extends \advanced_testcase {
     /**
      * Data provider for test_upgrade_http_links
      */
-    public function upgrade_http_links_provider() {
+    public static function upgrade_http_links_provider() {
         global $CFG;
         // Get the http url, since the default test wwwroot is https.
         $wwwroothttp = preg_replace('/^https:/', 'http:', $CFG->wwwroot);
@@ -160,7 +160,7 @@ class httpsreplace_test extends \advanced_testcase {
     /**
      * Data provider for test_http_link_stats
      */
-    public function http_link_stats_provider() {
+    public static function http_link_stats_provider() {
         global $CFG;
         // Get the http url, since the default test wwwroot is https.
         $wwwrootdomain = 'www.example.com';

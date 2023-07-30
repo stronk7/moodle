@@ -71,7 +71,7 @@ class event_test extends \advanced_testcase {
     /**
      * Test cases for getters test.
      */
-    public function getters_testcases() {
+    public static function getters_testcases() {
         $lamecallable = function($id) {
             return (object)['id' => $id, 'modname' => 'assign'];
         };

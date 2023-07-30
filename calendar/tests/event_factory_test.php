@@ -346,7 +346,7 @@ class event_factory_test extends \advanced_testcase {
      *
      * @return array Array of testcases.
      */
-    public function create_instance_testcases() {
+    public static function create_instance_testcases() {
         return [
             'Sample event record with event exposed' => [
                 'dbrow' => (object)[

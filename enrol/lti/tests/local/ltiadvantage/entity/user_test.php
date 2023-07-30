@@ -64,7 +64,7 @@ class user_test extends \advanced_testcase {
      *
      * @return array the data for testing.
      */
-    public function create_data_provider(): array {
+    public static function create_data_provider(): array {
         global $CFG;
         return [
             'Valid create, only required args provided' => [
@@ -272,7 +272,7 @@ class user_test extends \advanced_testcase {
      *
      * @return array the data for testing.
      */
-    public function create_from_resource_link_data_provider(): array {
+    public static function create_from_resource_link_data_provider(): array {
         global $CFG;
         return [
             'Valid creation, all args provided explicitly' => [
@@ -511,7 +511,7 @@ class user_test extends \advanced_testcase {
      *
      * @return array the array of test data.
      */
-    public function setters_getters_data_provider(): array {
+    public static function setters_getters_data_provider(): array {
         global $CFG;
         return [
             'Testing set_resourcelinkid with valid id' => [

@@ -251,7 +251,7 @@ class report_test extends \advanced_testcase {
      *
      * @return array List of data sets (test cases)
      */
-    public function get_users_with_profile_fields_provider(): array {
+    public static function get_users_with_profile_fields_provider(): array {
         return [
             // User identity check boxes, 'email', 'profile_field_lang' and 'profile_field_height' are checked.
                 'show email,lang and height;search for all users' =>
@@ -401,7 +401,7 @@ class report_test extends \advanced_testcase {
     /**
      * Data provider method for \gradereport_history_report_testcase::test_get_users_with_groups()
      */
-    public function get_users_provider() {
+    public static function get_users_provider() {
         return [
             'Visible groups, non-editing teacher, not in any group' => [
                 VISIBLEGROUPS, 'teacher', ['g1', 'g2'], ['s1', 's2', 's3', 's4', 's5']

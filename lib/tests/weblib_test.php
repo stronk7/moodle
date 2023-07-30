@@ -655,7 +655,7 @@ EXPECTED;
      *
      * @return array Returns aray of test data for the test_validate_email function
      */
-    public function data_validate_email() {
+    public static function data_validate_email() {
         return [
             // Test addresses that should pass.
             [
@@ -1071,7 +1071,7 @@ EXPECTED;
      *
      * @return string[][]
      */
-    public function get_html_lang_attribute_value_provider() {
+    public static function get_html_lang_attribute_value_provider() {
         return [
             'Empty lang code' => ['    ', 'en'],
             'English' => ['en', 'en'],
@@ -1098,7 +1098,7 @@ EXPECTED;
      *
      * @return array
      */
-    public function strip_querystring_provider(): array {
+    public static function strip_querystring_provider(): array {
         return [
             'Null' => [null, ''],
             'Empty string' => ['', ''],

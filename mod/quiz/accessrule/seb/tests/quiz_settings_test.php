@@ -531,7 +531,7 @@ class quiz_settings_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function bad_browser_exam_key_provider(): array {
+    public static function bad_browser_exam_key_provider(): array {
         return [
             'Short string' => ['fdsf434r',
                     'A key should be a 64-character hex string.'],
@@ -547,7 +547,13 @@ class quiz_settings_test extends \advanced_testcase {
      *
      * @return array Test data.
      */
+<<<<<<< HEAD
     public function filter_rules_provider(): array {
+||||||| parent of be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
+    public function filter_rules_provider() : array {
+=======
+    public static function filter_rules_provider() : array {
+>>>>>>> be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
         return [
             'enabled simple expessions' => [
                 (object) [

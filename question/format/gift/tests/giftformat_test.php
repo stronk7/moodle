@@ -369,7 +369,7 @@ class giftformat_test extends \question_testcase {
      *
      * @return array Array of 1-element arrays of qtype_multichoice numbering styles
      */
-    public function numberingstyle_provider() {
+    public static function numberingstyle_provider() {
         return [
             ['abc'],
             ['ABCD'],
@@ -1333,7 +1333,7 @@ FALSE#42 is the Ultimate Answer.#You gave the right answer.}";
      *
      * @return array the test cases.
      */
-    public function extract_idnumber_and_tags_from_comment_testcases() {
+    public static function extract_idnumber_and_tags_from_comment_testcases() {
         return [
             'blank comment' => ['', [], ''],
             'nothing in comment' => ['', [], '// A basic comment.'],

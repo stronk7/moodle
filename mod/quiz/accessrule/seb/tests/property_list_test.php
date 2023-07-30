@@ -304,7 +304,7 @@ class property_list_test extends \advanced_testcase {
      *
      * @return array Array with test data.
      */
-    public function good_update_data_provider(): array {
+    public static function good_update_data_provider(): array {
         return [
             'Update string' => ['<key>testKey</key><string>testValue</string>', 'testKey', 'newValue'],
             'Update bool' => ['<key>testKey</key><true/>', 'testKey', false],
@@ -317,7 +317,13 @@ class property_list_test extends \advanced_testcase {
      *
      * @return array Array with test data.
      */
+<<<<<<< HEAD
     public function bad_update_data_provider(): array {
+||||||| parent of be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
+    public function bad_update_data_provider() : array {
+=======
+    public static function bad_update_data_provider() : array {
+>>>>>>> be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
 
         return [
             'Update string with bool' => ['<key>testKey</key><string>testValue</string>', 'testKey', true, 'testValue',
@@ -379,7 +385,13 @@ class property_list_test extends \advanced_testcase {
      *
      * @return array
      */
+<<<<<<< HEAD
     public function json_data_provider(): array {
+||||||| parent of be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
+    public function json_data_provider() : array {
+=======
+    public static function json_data_provider() : array {
+>>>>>>> be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
         $data = "blahblah";
         $base64data = base64_encode($data);
 

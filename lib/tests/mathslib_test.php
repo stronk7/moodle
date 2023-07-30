@@ -340,7 +340,7 @@ class mathslib_test extends \basic_testcase {
      *
      * @return array
      */
-    public function moduloOperatorData() {
+    public static function moduloOperatorData() {
         return array(
             array(
                 '=a%b', // 9%3 => 0
@@ -382,7 +382,7 @@ class mathslib_test extends \basic_testcase {
      *
      * @return array
      */
-    public function doubleMinusData() {
+    public static function doubleMinusData() {
         return array(
             array(
                 '=a+b*c--d', // 1+2*3--4 => 1+6+4 => 11

@@ -124,7 +124,7 @@ class restore_dbops_test extends \advanced_testcase {
     /**
      * Data provider for {@link test_precheck_user()}
      */
-    public function precheck_user_provider() {
+    public static function precheck_user_provider() {
 
         $emailmultiplier = [
             'shortmail' => 'normalusername@example.com',

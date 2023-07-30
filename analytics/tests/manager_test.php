@@ -214,7 +214,7 @@ class manager_test extends \advanced_testcase {
      *
      * @return array of (string)testcase => [(array)models, (string)expected exception message]
      */
-    public function validate_models_declaration_exceptions_provider() {
+    public static function validate_models_declaration_exceptions_provider() {
         return [
             'missing_target' => [
                 $this->load_models_from_fixture_file('missing_target'),

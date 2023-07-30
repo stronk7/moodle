@@ -107,7 +107,7 @@ class preset_importer_test extends \advanced_testcase {
      *
      * @return array[]
      */
-    public function needs_mapping_provider(): array {
+    public static function needs_mapping_provider(): array {
         $basedprovider = $this->preset_importer_provider();
 
         $basedprovider['Empty database / Empty importer']['needsmapping'] = false;
@@ -182,7 +182,7 @@ class preset_importer_test extends \advanced_testcase {
      *
      * @return array[]
      */
-    public function set_affected_provider(): array {
+    public static function set_affected_provider(): array {
         $basedprovider = $this->preset_importer_provider();
 
         $basedprovider['Empty database / Empty importer']['fieldstocreate'] = 0;
@@ -353,7 +353,7 @@ class preset_importer_test extends \advanced_testcase {
      *
      * @return array[]
      */
-    public function get_field_names_provider(): array {
+    public static function get_field_names_provider(): array {
         return [
             'Empty list' => [
                 'fields' => [],

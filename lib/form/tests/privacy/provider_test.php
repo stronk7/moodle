@@ -85,7 +85,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @return array
      */
-    public function data_filemanager_recentviewmode() {
+    public static function data_filemanager_recentviewmode() {
         return [
             'icons' => [
                 'val' => '1',

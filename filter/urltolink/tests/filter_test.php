@@ -35,7 +35,7 @@ require_once($CFG->dirroot . '/filter/urltolink/filter.php'); // Include the cod
 
 class filter_test extends \basic_testcase {
 
-    function get_convert_urls_into_links_test_cases() {
+    public static function get_convert_urls_into_links_test_cases() {
         // Create a 4095 and 4096 long URLs.
         $superlong4095 = str_pad('http://www.superlong4095.com?this=something', 4095, 'a');
         $superlong4096 = str_pad('http://www.superlong4096.com?this=something', 4096, 'a');

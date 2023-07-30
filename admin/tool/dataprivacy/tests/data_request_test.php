@@ -35,7 +35,7 @@ class data_request_test extends data_privacy_testcase {
      *
      * @return  array
      */
-    public function status_state_provider(): array {
+    public static function status_state_provider(): array {
         return [
             [
                 'state' => api::DATAREQUEST_STATUS_PENDING,
@@ -138,7 +138,13 @@ class data_request_test extends data_privacy_testcase {
      *
      * @return      array
      */
+<<<<<<< HEAD
     public function non_resettable_provider(): array {
+||||||| parent of be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
+    public function non_resettable_provider() : array {
+=======
+    public static function non_resettable_provider() : array {
+>>>>>>> be0705fddad (MDL-xxxxx phpunit: Ensure all data providers are public and static)
         $states = [];
         foreach ($this->status_state_provider() as $thisstatus) {
             if (!$thisstatus['resettable']) {

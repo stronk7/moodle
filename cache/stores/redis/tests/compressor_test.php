@@ -105,7 +105,7 @@ class compressor_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_for_test_it_works_with_different_types() {
+    public static function provider_for_test_it_works_with_different_types() {
         $object = new \stdClass();
         $object->field = 'value';
 
@@ -166,7 +166,7 @@ class compressor_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_for_tests_setget() {
+    public static function provider_for_tests_setget() {
         if (!cachestore_redis::are_requirements_met()) {
             // Even though we skip all tests in this case, this provider can still show warnings about non-existing class.
             return [];

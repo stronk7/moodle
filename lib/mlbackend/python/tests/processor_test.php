@@ -53,7 +53,7 @@ class processor_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function check_pip_package_versions() {
+    public static function check_pip_package_versions() {
         return [
             // Exact match.
             [

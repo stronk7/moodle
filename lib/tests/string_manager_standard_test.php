@@ -97,7 +97,7 @@ class string_manager_standard_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function get_deprecated_strings_provider() {
+    public static function get_deprecated_strings_provider() {
         global $CFG;
 
         $teststringman = testable_core_string_manager::instance($CFG->langotherroot, $CFG->langlocalroot, array());

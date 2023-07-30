@@ -100,7 +100,7 @@ class googledocs_drive_content_test extends \googledocs_content_testcase {
      *
      * @return array
      */
-    public function get_content_nodes_provider(): array {
+    public static function get_content_nodes_provider(): array {
 
         $rootid = \repository_googledocs::REPOSITORY_ROOT_ID;
         $mydriveid = \repository_googledocs::MY_DRIVE_ROOT_ID;
@@ -217,7 +217,7 @@ class googledocs_drive_content_test extends \googledocs_content_testcase {
      *
      * @return array
      */
-    public function get_navigation_provider(): array {
+    public static function get_navigation_provider(): array {
 
         $rootid = \repository_googledocs::REPOSITORY_ROOT_ID;
         $mydriveid = \repository_googledocs::MY_DRIVE_ROOT_ID;

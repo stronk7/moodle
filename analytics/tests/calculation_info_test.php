@@ -88,7 +88,7 @@ class calculation_info_test extends \advanced_testcase {
      *
      * @return mixed[]
      */
-    public function provider_test_calculation_info_add_pull() {
+    public static function provider_test_calculation_info_add_pull() {
         return [
             'mixed-types' => ['asd', true, [123, 123, 123], (object)['asd' => 'fgfg']],
         ];

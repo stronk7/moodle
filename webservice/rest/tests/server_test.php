@@ -38,7 +38,7 @@ class server_test extends \advanced_testcase {
      * Data provider for test_xmlize.
      * @return array
      */
-    public function xmlize_provider() {
+    public static function xmlize_provider() {
         $data = [];
         $data[] = [null, null, ''];
         $data[] = [new external_value(PARAM_BOOL), false, "<VALUE>0</VALUE>\n"];

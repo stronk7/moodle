@@ -216,7 +216,7 @@ class attempt_walkthrough_from_csv_test extends \advanced_testcase {
      * @return array One array element for each run of the test. Each element contains an array with the params for
      *                  test_walkthrough_from_csv.
      */
-    public function get_data_for_walkthrough(): array {
+    public static function get_data_for_walkthrough(): array {
         $quizzes = $this->load_csv_data_file('quizzes')['quizzes'];
         $datasets = [];
         foreach ($quizzes as $quizsettings) {

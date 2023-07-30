@@ -31,7 +31,7 @@ class mustache_helper_collection_test extends \advanced_testcase {
      * text by the helper before being passed to other another helper. This prevents
      * nested calls to helpers.
      */
-    public function get_strip_disallowed_helpers_testcases() {
+    public static function get_strip_disallowed_helpers_testcases() {
         return [
             'no disallowed' => [
                 'disallowed' => [],

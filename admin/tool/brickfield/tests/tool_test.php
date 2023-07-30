@@ -118,7 +118,7 @@ EOF;
      * Base64 image provider.
      * @return array
      */
-    public function base64_img_provider(): array {
+    public static function base64_img_provider(): array {
         $img = '<img src="myimage.jpg" />';
         return [
             'Image tag alone (base64)' => [

@@ -268,7 +268,7 @@ class stateactions_test extends \advanced_testcase {
      *
      * @return array the testing scenarios
      */
-    public function get_state_provider(): array {
+    public static function get_state_provider(): array {
         return array_merge(
             $this->course_state_provider('weeks'),
             $this->course_state_provider('topics'),
@@ -861,7 +861,7 @@ class stateactions_test extends \advanced_testcase {
      *
      * @return array the testing scenarios
      */
-    public function basic_role_provider() {
+    public static function basic_role_provider() {
         return [
             'editingteacher' => [
                 'role' => 'editingteacher',
@@ -972,7 +972,7 @@ class stateactions_test extends \advanced_testcase {
      *
      * @return array the testing scenarios
      */
-    public function cm_duplicate_provider(): array {
+    public static function cm_duplicate_provider(): array {
         return [
             'valid cms without target section' => [
                 'targetsection' => '',
@@ -1298,7 +1298,7 @@ class stateactions_test extends \advanced_testcase {
      *
      * @return array the testing scenarios
      */
-    public function section_move_after_provider(): array {
+    public static function section_move_after_provider(): array {
         return [
             'Move sections down' => [
                 'sectiontomove' => ['section2', 'section4'],

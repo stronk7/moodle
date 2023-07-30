@@ -37,7 +37,7 @@ class restore_gradebook_structure_step_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function rewrite_step_backup_file_for_legacy_freeze_provider() {
+    public static function rewrite_step_backup_file_for_legacy_freeze_provider() {
         $fixturesdir = realpath(__DIR__ . '/fixtures/rewrite_step_backup_file_for_legacy_freeze/');
         $tests = [];
         $iterator = new \RecursiveIteratorIterator(

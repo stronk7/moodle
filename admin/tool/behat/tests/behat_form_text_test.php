@@ -53,7 +53,7 @@ class behat_form_text_test extends \basic_testcase {
      *
      * @return array of value and expectation pairs to be tested.
      */
-    public function provider_test_set_get_value() {
+    public static function provider_test_set_get_value() {
         return [
             'null' => [null, null],
             'int' => [3, 3],
@@ -85,7 +85,7 @@ class behat_form_text_test extends \basic_testcase {
      *
      * @return array of decsep, value, match and result pairs to be tested.
      */
-    public function provider_test_matches() {
+    public static function provider_test_matches() {
         return [
             'lazy true' => ['.', 'hello', 'hello', true],
             'lazy false' => ['.', 'hello', 'bye', false],

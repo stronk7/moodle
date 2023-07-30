@@ -81,7 +81,7 @@ class stateupdates_test extends \advanced_testcase {
      *
      * @return array testing scenarios
      */
-    public function add_course_put_provider() {
+    public static function add_course_put_provider() {
         return [
             'Admin role' => [
                 'admin',
@@ -199,7 +199,7 @@ class stateupdates_test extends \advanced_testcase {
      *
      * @return array testing scenarios
      */
-    public function add_section_provider(): array {
+    public static function add_section_provider(): array {
         return array_merge(
             $this->add_section_provider_helper('put'),
             $this->add_section_provider_helper('create'),
@@ -343,7 +343,7 @@ class stateupdates_test extends \advanced_testcase {
      *
      * @return array testing scenarios
      */
-    public function add_cm_provider(): array {
+    public static function add_cm_provider(): array {
         return array_merge(
             $this->add_cm_provider_helper('put'),
             $this->add_cm_provider_helper('create'),
