@@ -377,7 +377,7 @@ class attempt_walkthrough_test extends \advanced_testcase {
     }
 
 
-    public function get_correct_response_for_variants() {
+    public static function get_correct_response_for_variants() {
         return [[1, 9.9], [2, 8.5], [5, 14.2], [10, 6.8, true]];
     }
 

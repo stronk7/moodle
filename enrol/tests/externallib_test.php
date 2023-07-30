@@ -43,7 +43,7 @@ class externallib_test extends externallib_advanced_testcase {
     /**
      * dataProvider for test_get_enrolled_users_visibility().
      */
-    public function get_enrolled_users_visibility_provider() {
+    public static function get_enrolled_users_visibility_provider() {
         return array(
             'Course without groups, default behavior (not filtering by cap, group, active)' =>
             array(
@@ -1124,7 +1124,7 @@ class externallib_test extends externallib_advanced_testcase {
     /**
      * dataProvider for test_submit_user_enrolment_form().
      */
-    public function submit_user_enrolment_form_provider() {
+    public static function submit_user_enrolment_form_provider() {
         $now = new \DateTime();
 
         $nextmonth = clone($now);

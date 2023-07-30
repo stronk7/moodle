@@ -621,7 +621,7 @@ class text_test extends advanced_testcase {
      * Provider for the test_is_charset_supported()
      * @return array[]
      */
-    public function is_charset_supported_provider() {
+    public static function is_charset_supported_provider() {
         return [
             "Check unsupported windows charset" => [
                 "cp1250", false

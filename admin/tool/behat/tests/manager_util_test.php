@@ -468,7 +468,7 @@ class tool_behat_manager_util_testcase extends advanced_testcase {
         $CFG->dirroot = $oldroot;
     }
 
-    public function clean_features_path_list() {
+    public static function clean_features_path_list() {
         return array(
             ['/home/test/this/that/test/behat/mod_assign.feature', 'mod_assign_behat_test_that_this_test', '/home/test/this/that/test/behat/mod_assign.feature'],
             ['/home/this/that/test/behat/mod_assign.feature', 'mod_assign_behat_test_that_this_home', '/home/this/that/test/behat/mod_assign.feature'],

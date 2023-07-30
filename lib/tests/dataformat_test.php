@@ -42,7 +42,7 @@ class dataformat_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function write_data_provider(): array {
+    public static function write_data_provider(): array {
         $data = [];
 
         $dataformats = core_component::get_plugin_list('dataformat');

@@ -5138,7 +5138,7 @@ class externallib_test extends externallib_advanced_testcase {
     /**
      * Data provider for test_get_conversation_counts().
      */
-    public function get_conversation_counts_test_cases() {
+    public static function get_conversation_counts_test_cases() {
         $typeindividual = \core_message\api::MESSAGE_CONVERSATION_TYPE_INDIVIDUAL;
         $typegroup = \core_message\api::MESSAGE_CONVERSATION_TYPE_GROUP;
         $typeself = \core_message\api::MESSAGE_CONVERSATION_TYPE_SELF;

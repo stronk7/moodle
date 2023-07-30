@@ -38,7 +38,7 @@ class number_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function get_sql_filter_simple_provider(): array {
+    public static function get_sql_filter_simple_provider(): array {
         return [
             [number::ANY_VALUE, null, null, true],
             [number::IS_NOT_EMPTY, null, null, true],
@@ -111,7 +111,7 @@ class number_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function get_sql_filter_invalid_provider(): array {
+    public static function get_sql_filter_invalid_provider(): array {
         return [
             [number::LESS_THAN],
             [number::GREATER_THAN],

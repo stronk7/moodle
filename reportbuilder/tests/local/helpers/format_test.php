@@ -46,7 +46,7 @@ class format_test extends advanced_testcase {
      *
      * @return array
      */
-    public function boolean_as_text_provider(): array {
+    public static function boolean_as_text_provider(): array {
         return [
             [false, get_string('no')],
             [true, get_string('yes')],

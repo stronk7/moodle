@@ -190,7 +190,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function role_provider(): array {
+    public static function role_provider(): array {
         $tests = [
             // Users who only have one role each.
             'Users in each role' => (object) [
@@ -804,7 +804,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function country_provider(): array {
+    public static function country_provider(): array {
         $tests = [
             'users' => [
                 'user1' => 'DE',
@@ -999,7 +999,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function keywords_provider(): array {
+    public static function keywords_provider(): array {
         $tests = [
             // Users where the keyword matches basic user fields such as names and email.
             'Users with basic names' => (object) [
@@ -1545,7 +1545,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function status_provider(): array {
+    public static function status_provider(): array {
         $tests = [
             // Users with different statuses and enrolment methods (so multiple statuses are possible for the same user).
             'Users with different enrolment statuses' => (object) [
@@ -1800,7 +1800,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function enrolments_provider(): array {
+    public static function enrolments_provider(): array {
         $tests = [
             // Users with different enrolment methods.
             'Users with different enrolment methods' => (object) [
@@ -2024,7 +2024,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function groups_provider(): array {
+    public static function groups_provider(): array {
         $tests = [
             'Users in different groups' => (object) [
                 'groupsavailable' => [
@@ -2363,7 +2363,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function groups_separate_provider(): array {
+    public static function groups_separate_provider(): array {
         $tests = [
             'Users in different groups with separate groups mode enabled' => (object) [
                 'groupsavailable' => [
@@ -2723,7 +2723,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function accesssince_provider(): array {
+    public static function accesssince_provider(): array {
         $tests = [
             // Users with different last access times.
             'Users in different groups' => (object) [
@@ -3128,7 +3128,7 @@ class participants_search_test extends advanced_testcase {
      *
      * @return array
      */
-    public function filterset_joins_provider(): array {
+    public static function filterset_joins_provider(): array {
         $tests = [
             // Users with different configurations.
             'Users with different configurations' => (object) [

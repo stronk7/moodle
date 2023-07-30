@@ -415,7 +415,7 @@ class permission_test extends advanced_testcase {
      *
      * @return array
      */
-    public function can_create_report_limit_reached_provider(): array {
+    public static function can_create_report_limit_reached_provider(): array {
         return [
             [0, 1, true],
             [1, 1, false],

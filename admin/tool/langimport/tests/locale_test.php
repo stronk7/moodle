@@ -107,7 +107,7 @@ class locale_test extends \advanced_testcase {
      * We make extensive use of the en_AU.UTF-8/English_Australia.1252 locale that is mandatory to
      * be installed in any system running PHPUnit tests.
      */
-    public function set_locale_provider(): array {
+    public static function set_locale_provider(): array {
         // Let's list the allowed categories by OS.
         $bsdallowed = ['LC_COLLATE', 'LC_CTYPE', 'LC_MESSAGES', 'LC_MONETARY', 'LC_NUMERIC', 'LC_TIME'];
         $winallowed = ['LC_COLLATE', 'LC_CTYPE', 'LC_MONETARY', 'LC_NUMERIC', 'LC_TIME'];

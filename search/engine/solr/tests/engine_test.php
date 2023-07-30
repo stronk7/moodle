@@ -143,7 +143,7 @@ class engine_test extends \advanced_testcase {
     /**
      * Simple data provider to allow tests to be run with file indexing on and off.
      */
-    public function file_indexing_provider() {
+    public static function file_indexing_provider() {
         return array(
             'file-indexing-on' => array(1),
             'file-indexing-off' => array(0)

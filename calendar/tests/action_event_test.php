@@ -64,7 +64,7 @@ class action_event_test extends \advanced_testcase {
     /**
      * Test cases for getters test.
      */
-    public function getters_testcases() {
+    public static function getters_testcases() {
         return [
             'Dataset 1' => [
                 'constructorparams' => [

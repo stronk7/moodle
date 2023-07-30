@@ -76,7 +76,7 @@ class geoip_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function ip_provider() {
+    public static function ip_provider() {
         return [
             'IPv4: IPV4 test' => ['81.2.69.142'],
             'IPv6: IPV6 test' => ['2001:252:1::1:1:1'],

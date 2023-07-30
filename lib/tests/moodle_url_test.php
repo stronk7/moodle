@@ -268,7 +268,7 @@ class moodle_url_test extends \advanced_testcase {
      *
      * @return array[] the array of test data.
      */
-    public function moodle_url_export_params_for_template_provider() :array {
+    public static function moodle_url_export_params_for_template_provider() :array {
         $baseurl = "http://example.com";
         return [
                 'With indexed array params' => [
@@ -341,7 +341,7 @@ class moodle_url_test extends \advanced_testcase {
      *
      * @return  array[]
      */
-    public function make_pluginfile_url_provider() {
+    public static function make_pluginfile_url_provider() {
         $baseurl = "https://www.example.com/moodle/pluginfile.php";
         $tokenbaseurl = "https://www.example.com/moodle/tokenpluginfile.php";
         return [

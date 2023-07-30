@@ -169,7 +169,7 @@ class zip_writer_test extends advanced_testcase {
      *
      * @return array
      */
-    public function sanitise_filepath_provider(): array {
+    public static function sanitise_filepath_provider(): array {
         return [
             ['a../../file/path', 'a../file/path'],
             ['a./file/path', 'a./file/path'],

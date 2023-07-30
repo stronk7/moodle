@@ -61,7 +61,7 @@ class filter_test extends \advanced_testcase {
      *
      * @return string[]
      */
-    public function filter_emoticon_filtered_provider(): array {
+    public static function filter_emoticon_filtered_provider(): array {
         return [
             'FORMAT_HTML is filtered' => [
                 'input' => 'Hello(n)',
@@ -97,7 +97,7 @@ class filter_test extends \advanced_testcase {
      *
      * @return  array
      */
-    public function filter_emoticon_provider() {
+    public static function filter_emoticon_provider() {
         $grr = '(grr)';
         return [
             'FORMAT_MOODLE is not filtered' => [

@@ -40,7 +40,7 @@ class dates_test extends advanced_testcase {
      * Data provider for get_dates_for_module().
      * @return array[]
      */
-    public function get_dates_for_module_provider(): array {
+    public static function get_dates_for_module_provider(): array {
         global $CFG;
         require_once($CFG->dirroot . '/mod/chat/lib.php');
 

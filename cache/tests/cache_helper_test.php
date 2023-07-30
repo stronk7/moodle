@@ -43,7 +43,7 @@ class cache_helper_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function result_found_provider(): array {
+    public static function result_found_provider(): array {
         return [
             // Only false values are considered as not found.
             [false, false],

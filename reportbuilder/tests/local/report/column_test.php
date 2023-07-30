@@ -143,7 +143,7 @@ class column_test extends advanced_testcase {
      *
      * @return array
      */
-    public function add_field_provider(): array {
+    public static function add_field_provider(): array {
         return [
             ['foo', '', ['foo AS c1_foo']],
             ['foo', 'bar', ['foo AS c1_bar']],
@@ -231,7 +231,7 @@ class column_test extends advanced_testcase {
      *
      * @return array
      */
-    public function add_fields_provider(): array {
+    public static function add_fields_provider(): array {
         return [
             ['t.foo', ['t.foo AS c1_foo']],
             ['t.foo bar', ['t.foo AS c1_bar']],
@@ -327,7 +327,7 @@ class column_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function column_type_provider(): array {
+    public static function column_type_provider(): array {
         return [
             [column::TYPE_INTEGER, 42],
             [column::TYPE_TEXT, 'Hello'],

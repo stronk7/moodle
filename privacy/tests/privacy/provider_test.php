@@ -46,7 +46,7 @@ class provider_test extends \advanced_testcase {
      *
      * @return array the array of frankenstyle component names with the relevant class name.
      */
-    public function get_component_list() {
+    public static function get_component_list() {
         $components = ['core' => [
             'component' => 'core',
             'classname' => manager::get_provider_classname_for_component('core')
@@ -97,7 +97,7 @@ class provider_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function null_provider_provider() {
+    public static function null_provider_provider() {
         return array_filter($this->get_component_list(), function($component) {
                 return static::component_implements(
                     $component['classname'],
@@ -218,7 +218,7 @@ class provider_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function metadata_provider_provider() {
+    public static function metadata_provider_provider() {
         return array_filter($this->get_component_list(), function($component) {
                 return static::component_implements(
                     $component['classname'],
@@ -232,7 +232,7 @@ class provider_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function is_user_data_provider() {
+    public static function is_user_data_provider() {
         return array_filter($this->get_component_list(), function($component) {
                 return static::component_implements(
                     $component['classname'],

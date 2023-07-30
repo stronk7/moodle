@@ -747,7 +747,7 @@ class lib_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function bigbluebuttonbn_pre_enable_plugin_actions_provider(): array {
+    public static function bigbluebuttonbn_pre_enable_plugin_actions_provider(): array {
         return [
             'Initially unset' => [
                 null,

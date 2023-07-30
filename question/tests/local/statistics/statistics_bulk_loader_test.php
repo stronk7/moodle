@@ -294,7 +294,7 @@ class statistics_bulk_loader_test extends advanced_testcase {
      *
      * @return Generator
      */
-    public function load_question_facility_provider(): Generator {
+    public static function load_question_facility_provider(): Generator {
         yield 'Facility case 1' => [
             'Quiz 1 attempts' => [
                 $this->generate_attempt_answers([1, 0, 0, 0]),
@@ -391,7 +391,7 @@ class statistics_bulk_loader_test extends advanced_testcase {
      * Data provider for {@see test_load_question_discriminative_efficiency()}.
      * @return Generator
      */
-    public function load_question_discriminative_efficiency_provider(): Generator {
+    public static function load_question_discriminative_efficiency_provider(): Generator {
         yield 'Discriminative efficiency' => [
             'Quiz 1 attempts' => [
                 $this->generate_attempt_answers([1, 0, 0, 0]),
@@ -485,7 +485,7 @@ class statistics_bulk_loader_test extends advanced_testcase {
      * Data provider for {@see test_load_question_discrimination_index()}.
      * @return Generator
      */
-    public function load_question_discrimination_index_provider(): Generator {
+    public static function load_question_discrimination_index_provider(): Generator {
         yield 'Discrimination Index' => [
             'Quiz 1 attempts' => [
                 $this->generate_attempt_answers([1, 0, 0, 0]),

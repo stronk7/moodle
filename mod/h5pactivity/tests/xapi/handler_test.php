@@ -202,7 +202,7 @@ class handler_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function xapi_handler_errors_data(): array {
+    public static function xapi_handler_errors_data(): array {
         return [
             // Invalid Definitions and results possibilities.
             'Invalid definition and result' => [

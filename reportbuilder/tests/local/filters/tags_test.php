@@ -38,7 +38,7 @@ class tags_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function get_sql_filter_provider(): array {
+    public static function get_sql_filter_provider(): array {
         return [
             'Any value' => [tags::ANY_VALUE, null, ['course01', 'course01', 'course02', 'course03']],
             'Not empty' => [tags::NOT_EMPTY, null, ['course01', 'course01', 'course02']],

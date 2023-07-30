@@ -286,7 +286,7 @@ class auth_test extends \advanced_testcase {
      *
      * @return array the test case data.
      */
-    public function launch_data_provider(): array {
+    public static function launch_data_provider(): array {
         return [
             'New (unlinked) platform learner including PII, no legacy user, no migration claim' => [
                 'legacy_data' => null,
@@ -810,7 +810,7 @@ class auth_test extends \advanced_testcase {
      *
      * @return array the test case data.
      */
-    public function membership_data_provider(): array {
+    public static function membership_data_provider(): array {
         return [
             'New (unlinked) platform learner including PII, no legacy data, no consumer key bound, no legacy id' => [
                 'legacy_data' => null,

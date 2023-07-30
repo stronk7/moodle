@@ -38,7 +38,7 @@ class date_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_sql_filter_simple_provider(): array {
+    public static function get_sql_filter_simple_provider(): array {
         return [
             [date::DATE_ANY, true],
             [date::DATE_NOT_EMPTY, true],
@@ -120,7 +120,7 @@ class date_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_sql_filter_current_week_provider(): array {
+    public static function get_sql_filter_current_week_provider(): array {
         return array_map(static function(int $day): array {
             return [$day];
         }, range(0, 6));
@@ -165,7 +165,7 @@ class date_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_sql_filter_current_week_no_match_provider(): array {
+    public static function get_sql_filter_current_week_no_match_provider(): array {
         $data = [];
 
         // For each day, create provider data for -/+ 8 days.
@@ -219,7 +219,7 @@ class date_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_sql_filter_relative_provider(): array {
+    public static function get_sql_filter_relative_provider(): array {
         return [
             'Before hour' => [date::DATE_BEFORE, 1, date::DATE_UNIT_HOUR, '-90 minute'],
             'Before day' => [date::DATE_BEFORE, 1, date::DATE_UNIT_DAY, '-25 hour'],

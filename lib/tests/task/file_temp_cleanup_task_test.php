@@ -32,7 +32,7 @@ class file_temp_cleanup_task_test extends \basic_testcase {
      *
      * @return array Provider data
      */
-    public function cron_delete_from_temp_provider() {
+    public static function cron_delete_from_temp_provider() {
         global $CFG;
 
         $tmpdir = realpath($CFG->tempdir);

@@ -53,7 +53,7 @@ class remote_resource_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function remote_resource_data_provider() {
+    public static function remote_resource_data_provider() {
         return [
             'With filename and extension' => [
                 $this->getExternalTestFileUrl('/test.html'),

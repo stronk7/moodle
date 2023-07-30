@@ -211,7 +211,7 @@ class icon_system_test extends advanced_testcase {
      *
      * @return array
      */
-    public function is_valid_subsystem_provider(): array {
+    public static function is_valid_subsystem_provider(): array {
         return $this->icon_system_provider();
     }
 
@@ -220,7 +220,7 @@ class icon_system_test extends advanced_testcase {
      *
      * @return array
      */
-    public function invalid_instance_provider(): array {
+    public static function invalid_instance_provider(): array {
         return array_filter(
             $this->icon_system_provider(),
             function($data) {
@@ -235,7 +235,7 @@ class icon_system_test extends advanced_testcase {
      *
      * @return array
      */
-    public function valid_instance_provider(): array {
+    public static function valid_instance_provider(): array {
         return array_filter(
             $this->icon_system_provider(),
             function($data) {

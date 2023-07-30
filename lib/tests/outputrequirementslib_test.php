@@ -170,7 +170,7 @@ class outputrequirementslib_test extends \advanced_testcase {
      * @see \page_requirements_manager::js_fix_url()
      * @see \moodle_url
      */
-    public function js_fix_url_moodle_url_provider() {
+    public static function js_fix_url_moodle_url_provider() {
         global $CFG;
         $wwwroot = rtrim($CFG->wwwroot, '/');
         $libdir = rtrim($CFG->libdir, '/');
@@ -253,7 +253,7 @@ class outputrequirementslib_test extends \advanced_testcase {
      * @return array
      * @see \page_requirements_manager::js_fix_url()
      */
-    public function js_fix_url_plain_string_provider() {
+    public static function js_fix_url_plain_string_provider() {
         global $CFG;
         $wwwroot = rtrim($CFG->wwwroot, '/');
         $admin = "/{$CFG->admin}/"; // Deprecated, just for coverage purposes.
@@ -329,7 +329,7 @@ class outputrequirementslib_test extends \advanced_testcase {
      * @return array
      * @see \page_requirements_manager::js_fix_url()
      */
-    public function js_fix_url_coding_exception_provider() {
+    public static function js_fix_url_coding_exception_provider() {
         global $CFG;
         $wwwroot = rtrim($CFG->wwwroot, '/');
 

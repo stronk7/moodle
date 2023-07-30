@@ -262,7 +262,7 @@ class user_profile_fields_test extends core_reportbuilder_testcase {
      *
      * @return array[]
      */
-    public function custom_report_filter_provider(): array {
+    public static function custom_report_filter_provider(): array {
         return [
             'Filter by checkbox profile field' => ['user:profilefield_checkbox', [
                 'user:profilefield_checkbox_operator' => boolean_select::CHECKED,

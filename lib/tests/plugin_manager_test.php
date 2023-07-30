@@ -540,7 +540,7 @@ class plugin_manager_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function check_explicitly_supported_provider(): array {
+    public static function check_explicitly_supported_provider(): array {
         return [
             'Range, branch in support, lowest' => [
                 'supported' => [29, 31],

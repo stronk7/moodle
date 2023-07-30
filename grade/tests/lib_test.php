@@ -878,7 +878,7 @@ class lib_test extends \advanced_testcase {
      *
      * @return array of testing scenarios
      */
-    public function calculate_average_data() : array {
+    public static function calculate_average_data() : array {
         return [
             'Non-empty grades' => [
                 'meanselection' => 1,

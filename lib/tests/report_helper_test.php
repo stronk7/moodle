@@ -37,7 +37,7 @@ class report_helper_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function data_selected_report():array {
+    public static function data_selected_report():array {
         return [
             ['course_url_id' => [
                 ['url' => '/test', 'id' => 1],

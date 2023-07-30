@@ -38,7 +38,7 @@ class duration_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_sql_filter_provider(): array {
+    public static function get_sql_filter_provider(): array {
         return [
             'Any duration' =>
                 [duration::DURATION_ANY, true],

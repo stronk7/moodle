@@ -784,7 +784,7 @@ class moodle_page_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function get_user_theme_provider() {
+    public static function get_user_theme_provider() {
         return [
             'User not a member of any cohort' => [
                 'usertheme' => '',

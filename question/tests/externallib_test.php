@@ -112,7 +112,7 @@ class externallib_test extends externallib_advanced_testcase {
     /**
      * Data provider for the get_random_question_summaries test.
      */
-    public function get_random_question_summaries_test_cases() {
+    public static function get_random_question_summaries_test_cases() {
         return [
             'empty category' => [
                 'categoryindex' => 'emptycat',

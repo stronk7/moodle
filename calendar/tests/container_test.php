@@ -504,7 +504,7 @@ class container_test extends \advanced_testcase {
     /**
      * Test cases for the get event factory test.
      */
-    public function get_event_factory_testcases() {
+    public static function get_event_factory_testcases() {
         return [
             'Data set 1' => [
                 'dbrow' => (object)[

@@ -341,7 +341,7 @@ class prediction_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_ml_training_and_prediction() {
+    public static function provider_ml_training_and_prediction() {
         $cases = array(
             'no_splitting' => array('\core\analytics\time_splitting\no_splitting', 0, 1),
             'quarters' => array('\core\analytics\time_splitting\quarters', 3, 4)
@@ -417,7 +417,7 @@ class prediction_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_ml_processors() {
+    public static function provider_ml_processors() {
         $cases = [
             'case' => [],
         ];
@@ -507,7 +507,7 @@ class prediction_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_ml_classifiers_return() {
+    public static function provider_ml_classifiers_return() {
         // Using verbose options as the first argument for readability.
         $cases = array(
             '1-samples' => array('maybe', 1, [0]),
@@ -581,7 +581,7 @@ class prediction_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_test_multi_classifier() {
+    public static function provider_test_multi_classifier() {
         $cases = array(
             'notimesplitting' => array('\core\analytics\time_splitting\no_splitting'),
         );
@@ -777,7 +777,7 @@ class prediction_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_ml_test_evaluation_configuration() {
+    public static function provider_ml_test_evaluation_configuration() {
 
         $cases = array(
             'bad' => array(

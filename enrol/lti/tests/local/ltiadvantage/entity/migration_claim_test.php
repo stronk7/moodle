@@ -84,7 +84,7 @@ class migration_claim_test extends \advanced_testcase {
      *
      * @return array[] the test case data.
      */
-    public function migration_claim_provider(): array {
+    public static function migration_claim_provider(): array {
         // Note: See https://www.imsglobal.org/spec/lti/v1p3/migr#lti-1-1-migration-claim for details regarding the
         // correct generation of oauth_consumer_key_sign signature.
         return [

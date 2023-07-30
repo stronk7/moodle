@@ -158,7 +158,7 @@ class generator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function create_attempt_data(): array {
+    public static function create_attempt_data(): array {
         return [
             'Compound statement' => [
                 [
@@ -351,7 +351,7 @@ class generator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function create_attempt_exceptions_data(): array {
+    public static function create_attempt_exceptions_data(): array {
         return [
             'Invalid user'                  => [true, false],
             'Invalid activity'              => [false, true],

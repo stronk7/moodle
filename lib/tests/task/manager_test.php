@@ -34,7 +34,7 @@ class manager_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function get_candidate_adhoc_tasks_provider(): array {
+    public static function get_candidate_adhoc_tasks_provider(): array {
         return [
             [
                 'concurrencylimit' => 5,

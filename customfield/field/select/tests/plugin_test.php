@@ -155,7 +155,7 @@ class plugin_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function parse_value_provider() : array {
+    public static function parse_value_provider() : array {
         return [
             ['Red', 1],
             ['Blue', 2],

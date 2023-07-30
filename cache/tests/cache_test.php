@@ -1548,7 +1548,7 @@ class cache_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function ttl_or_not(): array {
+    public static function ttl_or_not(): array {
         return [[false], [true]];
     }
 
@@ -1557,7 +1557,7 @@ class cache_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function ttl_and_static_acceleration_or_not(): array {
+    public static function ttl_and_static_acceleration_or_not(): array {
         return [[false, false], [false, true], [true, false], [true, true]];
     }
 
@@ -1566,7 +1566,7 @@ class cache_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function ttl_and_simple_data_or_not(): array {
+    public static function ttl_and_simple_data_or_not(): array {
         // Same values as for ttl and static acceleration (two booleans).
         return $this->ttl_and_static_acceleration_or_not();
     }
@@ -2960,7 +2960,7 @@ class cache_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function static_acceleration_performance_provider(): array {
+    public static function static_acceleration_performance_provider(): array {
         // Note: These are the delta values, not the absolute values.
         // Also note that the set will actually store the valuein the static cache immediately.
         $validfirst = [

@@ -123,7 +123,7 @@ class tool_launch_service_test extends \lti_advantage_testcase {
      *
      * @return array the test case data.
      */
-    public function user_launch_provider(): array {
+    public static function user_launch_provider(): array {
         return [
             'New tool: no legacy data, no migration claim sent' => [
                 'legacy_data' => null,
@@ -554,7 +554,7 @@ class tool_launch_service_test extends \lti_advantage_testcase {
      *
      * @return array the test case data
      */
-    public function aud_data_provider(): array {
+    public static function aud_data_provider(): array {
         return [
             'valid, array having multiple entries with the first one being clientid' => [
                 'aud' => ['123', 'something else', 'blah'],
@@ -662,7 +662,7 @@ class tool_launch_service_test extends \lti_advantage_testcase {
      *
      * @return array the array of test case data.
      */
-    public function ags_claim_provider(): array {
+    public static function ags_claim_provider(): array {
         return [
             'Coupled line item with score post only, no change to scopes on subsequent launch' => [
                 'agsclaim1' => [

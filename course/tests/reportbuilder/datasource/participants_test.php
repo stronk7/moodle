@@ -242,7 +242,7 @@ class participants_test extends core_reportbuilder_testcase {
      *
      * @return array
      */
-    public function datasource_filters_provider(): array {
+    public static function datasource_filters_provider(): array {
         global $DB;
 
         return [

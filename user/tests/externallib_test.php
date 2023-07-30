@@ -575,7 +575,7 @@ class externallib_test extends externallib_advanced_testcase {
     /**
      * Data provider for \core_user_externallib_testcase::test_create_users_with_same_emails().
      */
-    public function create_users_provider_with_same_emails() {
+    public static function create_users_provider_with_same_emails() {
         return [
             'Same emails allowed, same case' => [
                 1, false
@@ -661,7 +661,7 @@ class externallib_test extends externallib_advanced_testcase {
      *
      * @return array
      */
-    public function data_create_users_invalid_parameter() {
+    public static function data_create_users_invalid_parameter() {
         return [
             'blank_username' => [
                 'data' => [
@@ -920,7 +920,7 @@ class externallib_test extends externallib_advanced_testcase {
      *
      * @return array
      */
-    public function users_with_same_emails() {
+    public static function users_with_same_emails() {
         return [
             'Same emails not allowed: Update name using exactly the same email' => [
                 0, 'John', 's1@example.com', 'Johnny', 's1@example.com', false, true

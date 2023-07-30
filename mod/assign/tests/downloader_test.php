@@ -179,7 +179,7 @@ class downloader_test extends \advanced_testcase {
      *
      * @return array of scenarios
      */
-    public function load_filelist_provider(): array {
+    public static function load_filelist_provider(): array {
         $downloadasfoldertests = $this->load_filelist_downloadasfolder_scenarios();
         $downloadasfilestests = $this->load_filelist_downloadasfiles_scenarios();
         return array_merge(

@@ -359,7 +359,7 @@ class filetypes_util_test extends advanced_testcase {
      *
      * @return array
      */
-    public function is_allowed_file_type_provider() {
+    public static function is_allowed_file_type_provider() {
         return [
             'Filetype not in extension list' => [
                 'filename' => 'test.xml',
@@ -421,7 +421,7 @@ class filetypes_util_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_unknown_file_types_provider() {
+    public static function get_unknown_file_types_provider() {
         return [
             'Empty list' => [
                 'filetypes' => '',

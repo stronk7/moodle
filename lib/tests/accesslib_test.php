@@ -2060,7 +2060,7 @@ class accesslib_test extends advanced_testcase {
      *
      * @return array
      */
-    public function deprecated_capabilities_use_cases() {
+    public static function deprecated_capabilities_use_cases() {
         return [
             'capability missing' => [
                 'fake/access:missingcapability',
@@ -3034,7 +3034,7 @@ class accesslib_test extends advanced_testcase {
         $this->assertEquals(1, count_enrolled_users($coursecontext, '', $groupids));
     }
 
-    public function get_enrolled_sql_provider() {
+    public static function get_enrolled_sql_provider() {
         return array(
             array(
                 // Two users who are enrolled.
@@ -4595,7 +4595,7 @@ class accesslib_test extends advanced_testcase {
      *
      * @return array
      */
-    public function get_get_with_capability_join_override_cases() {
+    public static function get_get_with_capability_join_override_cases() {
         return [
                 'no overrides' => [true, []],
                 'one override' => [true, ['moodle/course:viewscales']],
@@ -4797,7 +4797,7 @@ class accesslib_test extends advanced_testcase {
      *
      * @return  array
      */
-    public function is_parent_of_provider(): array {
+    public static function is_parent_of_provider(): array {
         $provideboth = function(string $desc, string $contextpath, string $testpath, bool $expected): array {
             return [
                 "includeself: true; {$desc}" => [
@@ -4900,7 +4900,7 @@ class accesslib_test extends advanced_testcase {
      *
      * @return  array
      */
-    public function is_child_of_provider(): array {
+    public static function is_child_of_provider(): array {
         $provideboth = function(string $desc, string $contextpath, string $testpath, bool $expected): array {
             return [
                 "includeself: true; {$desc}" => [

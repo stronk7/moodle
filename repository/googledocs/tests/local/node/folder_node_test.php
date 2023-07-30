@@ -50,7 +50,7 @@ class folder_node_test extends \repository_googledocs_testcase {
      *
      * @return array
      */
-    public function create_node_array_provider(): array {
+    public static function create_node_array_provider(): array {
 
         $rootid = \repository_googledocs::REPOSITORY_ROOT_ID;
 

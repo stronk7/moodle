@@ -47,7 +47,7 @@ class environment_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function environment_provider() {
+    public static function environment_provider() {
         global $CFG;
         require_once($CFG->libdir.'/environmentlib.php');
 

@@ -517,7 +517,7 @@ class locallib_test extends mod_lti_testcase {
      *
      * @return array of [urlToTest, expectedTool, allTools]
      */
-    public function lti_get_best_tool_by_url_provider() {
+    public static function lti_get_best_tool_by_url_provider() {
         $tools = [
             (object) [
                 'name' => 'Here',
@@ -2020,7 +2020,7 @@ MwIDAQAB
      *
      * @return array[] the test case data.
      */
-    public function lti_get_ims_role_provider() {
+    public static function lti_get_ims_role_provider() {
         return [
             'Student, LTI 1.1, no role switch' => [
                 'islti2' => false,

@@ -75,7 +75,7 @@ class messageinbound_test extends \advanced_testcase {
         }
     }
 
-    public function message_inbound_handler_trim_testprovider() {
+    public static function message_inbound_handler_trim_testprovider() {
         $fixturesdir = realpath(__DIR__ . '/fixtures/messageinbound/');
         $tests = array();
         $iterator = new \RecursiveIteratorIterator(

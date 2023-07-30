@@ -202,7 +202,7 @@ class custom_fields_test extends core_reportbuilder_testcase {
      *
      * @return array[]
      */
-    public function custom_report_filter_provider(): array {
+    public static function custom_report_filter_provider(): array {
         return [
             'Filter by text custom field' => ['course:customfield_text', [
                 'course:customfield_text_operator' => text::IS_EQUAL_TO,

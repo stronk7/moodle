@@ -459,7 +459,7 @@ class external_test extends externallib_advanced_testcase {
      *
      * @return array
      */
-    public function items_provider(): array {
+    public static function items_provider(): array {
         return [
             'Valid feedback (as student)' => [
                 'role' => 'student',

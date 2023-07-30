@@ -257,7 +257,7 @@ class schedule_test extends advanced_testcase {
      *
      * @return string[]
      */
-    public function get_schedule_report_file_format(): array {
+    public static function get_schedule_report_file_format(): array {
         return [
             ['csv'],
             ['excel'],
@@ -294,7 +294,7 @@ class schedule_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function should_send_schedule_provider(): array {
+    public static function should_send_schedule_provider(): array {
         $time = time();
 
         // We just need large offsets for dates in the past/future.
@@ -371,7 +371,7 @@ class schedule_test extends advanced_testcase {
      *
      * @return array[]
      */
-    public function calculate_next_send_time_provider(): array {
+    public static function calculate_next_send_time_provider(): array {
         $timescheduled = 1635865200; // Tue Nov 02 2021 15:00:00 GMT+0000.
         $timenow = 1639846800; // Sat Dec 18 2021 17:00:00 GMT+0000.
 

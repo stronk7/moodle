@@ -201,7 +201,7 @@ class submit_tags_test extends \externallib_advanced_testcase {
      *
      * @return array Test cases
      */
-    public function get_submit_tags_form_testcases() {
+    public static function get_submit_tags_form_testcases() {
         return [
                 'course - course' => [
                         'editingcontext' => 'course',

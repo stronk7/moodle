@@ -1774,7 +1774,7 @@ class api_test extends messagelib_test {
     * This provides sets of data to for testing.
     * @return array
     */
-   public function get_conversations_mixed_provider() {
+   public static function get_conversations_mixed_provider() {
        return array(
             'Test that conversations with messages contacts is correctly ordered.' => array(
                 'users' => array(
@@ -5369,7 +5369,7 @@ class api_test extends messagelib_test {
     /**
      * Data provider for test_get_conversation_counts().
      */
-    public function get_conversation_counts_test_cases() {
+    public static function get_conversation_counts_test_cases() {
         $typeindividual = api::MESSAGE_CONVERSATION_TYPE_INDIVIDUAL;
         $typegroup = api::MESSAGE_CONVERSATION_TYPE_GROUP;
         $typeself = api::MESSAGE_CONVERSATION_TYPE_SELF;

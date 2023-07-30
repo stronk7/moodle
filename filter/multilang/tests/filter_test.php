@@ -62,7 +62,7 @@ class filter_test extends \advanced_testcase {
     /**
      * Data provider for multi-language filtering tests.
      */
-    public function multilang_testcases() {
+    public static function multilang_testcases() {
         return [
             'Basic case EN' => [
                 'English',

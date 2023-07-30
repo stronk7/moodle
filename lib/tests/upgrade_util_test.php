@@ -50,7 +50,7 @@ class upgrade_util_test extends \advanced_testcase {
     /**
      * Test cases for validate_php_curl_tls test.
      */
-    public function validate_php_curl_tls_testcases() {
+    public static function validate_php_curl_tls_testcases() {
         $base = curl_version();
 
         return [
@@ -125,7 +125,7 @@ class upgrade_util_test extends \advanced_testcase {
      *
      * @return array of testcases
      */
-    public function can_use_tls12_testcases() {
+    public static function can_use_tls12_testcases() {
         return [
             // Bad versions.
             ['OpenSSL/0.9.8o', null, false],
