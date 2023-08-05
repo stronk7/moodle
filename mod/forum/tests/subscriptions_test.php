@@ -1353,7 +1353,7 @@ class subscriptions_test extends \advanced_testcase {
         $this->assertGreaterThan($suppliedcmcount, $calculatedcmcount);
     }
 
-    public function is_subscribable_forums() {
+    public static function is_subscribable_forums() {
         return [
             [
                 'forcesubscribe' => FORUM_DISALLOWSUBSCRIBE,
@@ -1372,7 +1372,7 @@ class subscriptions_test extends \advanced_testcase {
 
     public static function is_subscribable_provider() {
         $data = [];
-        foreach ($this->is_subscribable_forums() as $forum) {
+        foreach (self::is_subscribable_forums() as $forum) {
             $data[] = [$forum];
         }
 
