@@ -3155,8 +3155,8 @@ EOF;
         $this->assertTimeCurrent($USER->currentlogin);
         $this->assertSame(sesskey(), $USER->sesskey);
         $this->assertTimeCurrent($USER->preference['_lastloaded']);
-        $this->assertObjectNotHasAttribute('password', $USER);
-        $this->assertObjectNotHasAttribute('description', $USER);
+        $this->assertObjectNotHasProperty('password', $USER);
+        $this->assertObjectNotHasProperty('description', $USER);
     }
 
     /**
