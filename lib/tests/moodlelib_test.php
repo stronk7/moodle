@@ -4648,8 +4648,8 @@ EOT;
                 ['my_foobar_class', 'my_foobar_method'],
                 'my_foobar_class::my_foobar_method',
             ],
-            'static_method_of_object' => [
-                [$this, 'my_foobar_method'],
+            'static_method_of_this' => [
+                ['TRY_WITH_THIS', 'my_foobar_method'],
                 'core\moodlelib_test::my_foobar_method',
             ],
             'method_of_object' => [

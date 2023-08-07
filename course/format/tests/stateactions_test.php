@@ -270,27 +270,27 @@ class stateactions_test extends \advanced_testcase {
      */
     public static function get_state_provider(): array {
         return array_merge(
-            $this->course_state_provider('weeks'),
-            $this->course_state_provider('topics'),
-            $this->course_state_provider('social'),
-            $this->section_state_provider('weeks', 'admin'),
-            $this->section_state_provider('weeks', 'editingteacher'),
-            $this->section_state_provider('weeks', 'student'),
-            $this->section_state_provider('topics', 'admin'),
-            $this->section_state_provider('topics', 'editingteacher'),
-            $this->section_state_provider('topics', 'student'),
-            $this->section_state_provider('social', 'admin'),
-            $this->section_state_provider('social', 'editingteacher'),
-            $this->section_state_provider('social', 'student'),
-            $this->cm_state_provider('weeks', 'admin'),
-            $this->cm_state_provider('weeks', 'editingteacher'),
-            $this->cm_state_provider('weeks', 'student'),
-            $this->cm_state_provider('topics', 'admin'),
-            $this->cm_state_provider('topics', 'editingteacher'),
-            $this->cm_state_provider('topics', 'student'),
-            $this->cm_state_provider('social', 'admin'),
-            $this->cm_state_provider('social', 'editingteacher'),
-            $this->cm_state_provider('social', 'student'),
+            self::course_state_provider('weeks'),
+            self::course_state_provider('topics'),
+            self::course_state_provider('social'),
+            self::section_state_provider('weeks', 'admin'),
+            self::section_state_provider('weeks', 'editingteacher'),
+            self::section_state_provider('weeks', 'student'),
+            self::section_state_provider('topics', 'admin'),
+            self::section_state_provider('topics', 'editingteacher'),
+            self::section_state_provider('topics', 'student'),
+            self::section_state_provider('social', 'admin'),
+            self::section_state_provider('social', 'editingteacher'),
+            self::section_state_provider('social', 'student'),
+            self::cm_state_provider('weeks', 'admin'),
+            self::cm_state_provider('weeks', 'editingteacher'),
+            self::cm_state_provider('weeks', 'student'),
+            self::cm_state_provider('topics', 'admin'),
+            self::cm_state_provider('topics', 'editingteacher'),
+            self::cm_state_provider('topics', 'student'),
+            self::cm_state_provider('social', 'admin'),
+            self::cm_state_provider('social', 'editingteacher'),
+            self::cm_state_provider('social', 'student'),
         );
     }
 
@@ -300,7 +300,7 @@ class stateactions_test extends \advanced_testcase {
      * @param string $format the course format
      * @return array the testing scenarios
      */
-    public function course_state_provider(string $format): array {
+    public static function course_state_provider(string $format): array {
         $expectedexception = ($format === 'social');
         return [
             // Tests for course_state.
@@ -356,7 +356,7 @@ class stateactions_test extends \advanced_testcase {
      * @param string $role the user role
      * @return array the testing scenarios
      */
-    public function section_state_provider(string $format, string $role): array {
+    public static function section_state_provider(string $format, string $role): array {
 
         // Social format will raise an exception and debug messages because it does not
         // use sections and it does not provide a renderer.
@@ -485,7 +485,7 @@ class stateactions_test extends \advanced_testcase {
      * @param string $role the user role
      * @return array the testing scenarios
      */
-    public function cm_state_provider(string $format, string $role): array {
+    public static function cm_state_provider(string $format, string $role): array {
 
         // All sections and cms that the user can access to.
         $usersections = ['section0', 'section1', 'section2', 'section3'];
