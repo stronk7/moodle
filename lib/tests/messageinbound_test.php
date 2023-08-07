@@ -88,7 +88,7 @@ class messageinbound_test extends \advanced_testcase {
             }
 
             try {
-                $testdata = $this->read_test_file($file, $fixturesdir);
+                $testdata = self::read_test_file($file, $fixturesdir);
             } catch (\Exception $e) {
                 die($e->getMessage());
             }
@@ -111,7 +111,7 @@ class messageinbound_test extends \advanced_testcase {
         return $tests;
     }
 
-    protected function read_test_file(\SplFileInfo $file, $fixturesdir) {
+    protected static function read_test_file(\SplFileInfo $file, $fixturesdir) {
         // Break on the --[TOKEN]-- tags in the file.
         $content = file_get_contents($file->getRealPath());
         $content = preg_replace("#\r\n#", "\n", $content);

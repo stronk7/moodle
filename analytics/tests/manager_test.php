@@ -190,7 +190,7 @@ class manager_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         // This is expected to run without an exception.
-        $models = $this->load_models_from_fixture_file('no_teaching');
+        $models = self::load_models_from_fixture_file('no_teaching');
         \core_analytics\manager::validate_models_declaration($models);
     }
 
@@ -217,31 +217,31 @@ class manager_test extends \advanced_testcase {
     public static function validate_models_declaration_exceptions_provider() {
         return [
             'missing_target' => [
-                $this->load_models_from_fixture_file('missing_target'),
+                self::load_models_from_fixture_file('missing_target'),
                 'Missing target declaration',
             ],
             'invalid_target' => [
-                $this->load_models_from_fixture_file('invalid_target'),
+                self::load_models_from_fixture_file('invalid_target'),
                 'Invalid target classname',
             ],
             'missing_indicators' => [
-                $this->load_models_from_fixture_file('missing_indicators'),
+                self::load_models_from_fixture_file('missing_indicators'),
                 'Missing indicators declaration',
             ],
             'invalid_indicators' => [
-                $this->load_models_from_fixture_file('invalid_indicators'),
+                self::load_models_from_fixture_file('invalid_indicators'),
                 'Invalid indicator classname',
             ],
             'invalid_time_splitting' => [
-                $this->load_models_from_fixture_file('invalid_time_splitting'),
+                self::load_models_from_fixture_file('invalid_time_splitting'),
                 'Invalid time splitting classname',
             ],
             'invalid_time_splitting_fq' => [
-                $this->load_models_from_fixture_file('invalid_time_splitting_fq'),
+                self::load_models_from_fixture_file('invalid_time_splitting_fq'),
                 'Expecting fully qualified time splitting classname',
             ],
             'invalid_enabled' => [
-                $this->load_models_from_fixture_file('invalid_enabled'),
+                self::load_models_from_fixture_file('invalid_enabled'),
                 'Cannot enable a model without time splitting method specified',
             ],
         ];
@@ -253,7 +253,7 @@ class manager_test extends \advanced_testcase {
      * @param string $filename
      * @return array
      */
-    protected function load_models_from_fixture_file(string $filename) {
+    protected static function load_models_from_fixture_file(string $filename) {
         global $CFG;
 
         $models = null;
@@ -430,9 +430,9 @@ class manager_test extends \advanced_testcase {
      */
     public function test_model_declaration_identifier() {
 
-        $noteaching1 = $this->load_models_from_fixture_file('no_teaching');
-        $noteaching2 = $this->load_models_from_fixture_file('no_teaching');
-        $noteaching3 = $this->load_models_from_fixture_file('no_teaching');
+        $noteaching1 = self::load_models_from_fixture_file('no_teaching');
+        $noteaching2 = self::load_models_from_fixture_file('no_teaching');
+        $noteaching3 = self::load_models_from_fixture_file('no_teaching');
 
         // Same model declaration should always lead to same identifier.
         $this->assertEquals(
@@ -474,7 +474,7 @@ class manager_test extends \advanced_testcase {
     public function test_get_declared_target_and_indicators_instances() {
         $this->resetAfterTest();
 
-        $definition = $this->load_models_from_fixture_file('no_teaching');
+        $definition = self::load_models_from_fixture_file('no_teaching');
 
         list($target, $indicators) = \core_analytics\manager::get_declared_target_and_indicators_instances($definition[0]);
 

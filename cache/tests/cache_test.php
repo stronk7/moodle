@@ -1568,7 +1568,7 @@ class cache_test extends \advanced_testcase {
      */
     public static function ttl_and_simple_data_or_not(): array {
         // Same values as for ttl and static acceleration (two booleans).
-        return $this->ttl_and_static_acceleration_or_not();
+        return self::ttl_and_static_acceleration_or_not();
     }
 
     /**

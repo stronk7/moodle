@@ -4624,6 +4624,10 @@ EOT;
      * @param string $expectedname
      */
     public function test_get_callable_name($callable, $expectedname) {
+        // Providers are static, so they cannot use/return $this. Let's force it here.
+        if (is_array($callable) && $callable[0] === 'TRY_WITH_THIS') {
+            $callable[0] = $this;
+        }
         $this->assertSame($expectedname, get_callable_name($callable));
     }
 
@@ -4650,8 +4654,8 @@ EOT;
                 ['my_foobar_class', 'my_foobar_method'],
                 'my_foobar_class::my_foobar_method',
             ],
-            'static_method_of_object' => [
-                [$this, 'my_foobar_method'],
+            'static_method_of_this' => [
+                ['TRY_WITH_THIS', 'my_foobar_method'],
                 'core\moodlelib_test::my_foobar_method',
             ],
             'method_of_object' => [

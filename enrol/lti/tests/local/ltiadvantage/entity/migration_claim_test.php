@@ -54,13 +54,20 @@ class migration_claim_test extends \advanced_testcase {
      * @param string $clientid string id of the client.
      * @param string $exp expiry time.
      * @param string $nonce nonce.
-     * @param legacy_consumer_repository $legacyconsumerrepo legacy consumer repo instance.
+     * @param string $legacyrepotype use legacy_consumer_repository ('legacy') or stub ('stub') instance.
      * @param array $expected array containing expectation data.
      * @covers ::__construct
      */
     public function test_migration_claim(array $migrationclaimdata, string $deploymentid, string $platform,
-            string $clientid, string $exp, string $nonce, legacy_consumer_repository $legacyconsumerrepo,
-            array $expected) {
+            string $clientid, string $exp, string $nonce, string $legacyrepotype, array $expected) {
+
+        if ($legacyrepotype === 'legacy') {
+            $legacyconsumerrepo = new legacy_consumer_repository();
+        } else if ($legacyrepotype === 'stub') {
+            $legacyconsumerrepo = $this->get_stub_legacy_consumer_repo();
+        } else {
+            $this->fail("Incorrect type of legacy consumer repo. Use 'legacy' or 'stub'.");
+        }
 
         if (!empty($expected['exception'])) {
             $this->expectException($expected['exception']);
@@ -98,7 +105,7 @@ class migration_claim_test extends \advanced_testcase {
                 'clientid' => 'a1b2c3d4',
                 'exp' => '1622612930',
                 'nonce' => 'j45j2j5nnjn24544',
-                new legacy_consumer_repository(),
+                'legacy',
                 'expected' => [
                     'exception' => \coding_exception::class,
                     'exceptionmessage' => "Missing 'oauth_consumer_key' property in lti1p1 migration claim."
@@ -114,7 +121,7 @@ class migration_claim_test extends \advanced_testcase {
                 'clientid' => 'a1b2c3d4',
                 'exp' => '1622612930',
                 'nonce' => 'j45j2j5nnjn24544',
-                new legacy_consumer_repository(),
+                'legacy',
                 'expected' => [
                     'exception' => \coding_exception::class,
                     'exceptionmessage' => "Missing 'oauth_consumer_key_sign' property in lti1p1 migration claim."
@@ -130,7 +137,7 @@ class migration_claim_test extends \advanced_testcase {
                 'clientid' => 'a1b2c3d4',
                 'exp' => '1622612930',
                 'nonce' => 'j45j2j5nnjn24544',
-                new legacy_consumer_repository(),
+                'legacy',
                 'expected' => [
                     'exception' => \coding_exception::class,
                     'exceptionmessage' => "Invalid 'oauth_consumer_key_sign' signature in lti1p1 claim."
@@ -152,7 +159,7 @@ class migration_claim_test extends \advanced_testcase {
                 'clientid' => 'a1b2c3d4',
                 'exp' => '1622612930',
                 'nonce' => 'j45j2j5nnjn24544',
-                $this->get_stub_legacy_consumer_repo(),
+                'stub',
                 'expected' => [
                     'user_id' => null,
                     'context_id' => null,
@@ -180,7 +187,7 @@ class migration_claim_test extends \advanced_testcase {
                 'clientid' => 'a1b2c3d4',
                 'exp' => '1622612930',
                 'nonce' => 'j45j2j5nnjn24544',
-                $this->get_stub_legacy_consumer_repo(),
+                'stub',
                 'expected' => [
                     'user_id' => '24',
                     'context_id' => 'd345b',

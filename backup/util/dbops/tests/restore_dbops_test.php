@@ -135,7 +135,7 @@ class restore_dbops_test extends \advanced_testcase {
 
         foreach ($emailmultiplier as $emailk => $email) {
             // Get the related cases.
-            $cases = $this->precheck_user_cases($email);
+            $cases = self::precheck_user_cases($email);
             // Rename them (keys).
             foreach ($cases as $key => $case) {
                 $providercases[$key . ' - ' . $emailk] = $case;
@@ -150,7 +150,7 @@ class restore_dbops_test extends \advanced_testcase {
      *
      * @param string $email
      */
-    private function precheck_user_cases($email) {
+    private static function precheck_user_cases($email) {
         global $CFG;
 
         $baseuserarr = [

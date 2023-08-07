@@ -140,7 +140,7 @@ TBC;
                 'test' => '{{! a comment }}The rest of the template'
             ]
         ];
-        $loader = $this->build_loader_from_static_cache($cache);
+        $loader = self::build_loader_from_static_cache($cache);
 
         return [
             'with comments' => [
@@ -205,7 +205,7 @@ TBC;
                 'bim' => $bim
             ]
         ];
-        $loader = $this->build_loader_from_static_cache($cache);
+        $loader = self::build_loader_from_static_cache($cache);
 
         return [
             'no template includes w comments' => [
@@ -388,7 +388,7 @@ TEMPLATE;
                 'multiline5' => $multiline5,
             ]
         ];
-        $loader = $this->build_loader_from_static_cache($cache);
+        $loader = self::build_loader_from_static_cache($cache);
 
         return [
             'single template include' => [
@@ -510,7 +510,7 @@ TEMPLATE;
      * @param array $cache A cache of templates
      * @return mustache_template_source_loader
      */
-    private function build_loader_from_static_cache(array $cache) : mustache_template_source_loader {
+    private static function build_loader_from_static_cache(array $cache) : mustache_template_source_loader {
         return new mustache_template_source_loader(function($component, $name, $themename) use ($cache) {
             return $cache[$component][$name];
         });
