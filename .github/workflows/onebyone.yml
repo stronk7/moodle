@@ -19,6 +19,13 @@ name: One by One Testing
 # own isolation or any other option.
 
 on:
+  push:
+    branches-ignore:
+      - main
+      - master
+      - MOODLE_[0-9]+_STABLE
+    tags-ignore:
+      - v[0-9]+.[0-9]+.[0-9]+*
   workflow_dispatch:
     inputs:
       phpunit_extra_options:
@@ -85,7 +92,7 @@ jobs:
       - name: Setting up DB pgsql
         uses: m4nu56/postgresql-action@v1
         with:
-          postgresql version: 14
+          postgresql version: 17
           postgresql db: test
           postgresql user: test
           postgresql password: test
